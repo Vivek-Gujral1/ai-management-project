@@ -17,6 +17,21 @@ model User {
   verifyCodeExpiry DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  createdCompanyUsers Company[] // relation of user who cretaes company
 
   @@map("users")
+}
+
+
+model Company {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  email String?
+  createdsUserId String @db.ObjectId // who creates company
+  createdUser User @relation(fields: [createdsUserId] , references: [id])
+  sokcetRoomName String 
+  verifyCode String?
+  verifyCodeExpiry DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
