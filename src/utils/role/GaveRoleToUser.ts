@@ -1,9 +1,11 @@
 import prisma from "@/constants/prisma"
 import { ApiResponse } from "@/types/ApiResponse"
 
+import { userRole } from "@prisma/client"
+
 interface functionParameters{
     userId : string
-    Role   : string
+    Role   : userRole
     companyId? : string 
 }
 
@@ -36,7 +38,7 @@ export async function GaveRoleToUser({userId , companyId , Role} : functionParam
         // gave role
         await prisma.role.create({
             data : {
-                Role ,
+                Role   ,
                 company : {
                     connect : {
                         id : company.id

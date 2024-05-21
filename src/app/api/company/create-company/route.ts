@@ -74,7 +74,7 @@ export async function POST(req: Request) {
       }
       const RoleResponse = await GaveRoleToUser({
         userId: user.id,
-        Role: "owner",
+        Role: "Founder",
         companyId: newCompany.id,
       });
 
@@ -110,7 +110,7 @@ export async function POST(req: Request) {
 
       const RoleResponse = await GaveRoleToUser({
         userId: user.id,
-        Role: "owner",
+        Role: "Founder",
         companyId: newCompany.id,
       });
 
