@@ -11,6 +11,23 @@ interface UserDetails {
 export async function POST (req : Request) {
     try {
         const {name , email  , password} : UserDetails = await req.json()
+        const existingUserVerifiedByName = await prisma.user.findFirst({
+            where : {
+                name ,
+                isVerified : true
+            }
+        })
+
+        if (existingUserVerifiedByName) {
+            return Response.json(
+                {
+                    success : false ,
+                    message : "Name is already taken"
+                } , {
+                    status : 400
+                }
+            )
+        }
 
         const existedUserByEmail = await prisma.user.findFirst({
             where : {
