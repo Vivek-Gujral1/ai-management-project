@@ -5,23 +5,23 @@ import { SendCompanyVerificationEmail } from "@/utils/SendCompanyVerificationEma
 import { GaveRoleToUser } from "@/utils/role/GaveRoleToUser";
 
 export async function POST(req: Request) {
-  // const session = await getServerSession(authOptions);
-  // if (!session || !session.user) {
-  //   return Response.json(
-  //     {
-  //       success: false,
-  //       message: "Not Authenticated",
-  //     },
-  //     { status: 401 }
-  //   );
-  // }
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user) {
+    return Response.json(
+      {
+        success: false,
+        message: "Not Authenticated",
+      },
+      { status: 401 }
+    );
+  }
 
-  // const user = session.user;
+  const user = session.user;
   try {
-    const userId = "664c81465e5222788716908a"
+   
     const { name, email }: { name: string; email?: string } = await req.json();
 
-    const sokcetRoomName = `${userId}_${name}`;
+    const sokcetRoomName = `${user.id}_${name}`;
     // creates socket room named  to ensure that with socket.io, only one room is created with the same name and no duplicate rooms are  created.
     const exisitingCompany = await prisma.company.findFirst({
       where: {
@@ -51,11 +51,32 @@ export async function POST(req: Request) {
           verifyCodeExpiry: expiryDate,
           createdUser: {
             connect: {
-              id: userId,
+              id: user.id,
             },
           },
+          Members : {
+            connect :{
+              id : user.id
+            }
+          }
         },
       });
+
+      const RoleResponse = await GaveRoleToUser({
+        userId : user.id,
+        Role: "Founder",
+        companyId: newCompany.id,
+      });
+
+      if (!RoleResponse.success) {
+        return Response.json(
+          {
+            success: false,
+            message: RoleResponse.message,
+          },
+          { status: 500 }
+        );
+      }
 
       // send verification email
       const emailResponse = await SendCompanyVerificationEmail(
@@ -73,21 +94,7 @@ export async function POST(req: Request) {
           { status: 500 }
         );
       }
-      const RoleResponse = await GaveRoleToUser({
-        userId,
-        Role: "Founder",
-        companyId: newCompany.id,
-      });
-
-      if (!RoleResponse.success) {
-        return Response.json(
-          {
-            success: false,
-            message: RoleResponse.message,
-          },
-          { status: 500 }
-        );
-      }
+    
 
       return Response.json(
         {
@@ -103,14 +110,19 @@ export async function POST(req: Request) {
           sokcetRoomName,
           createdUser: {
             connect: {
-              id: userId,
+              id: user.id,
             },
-          },
+          }, 
+          Members :{
+            connect : {
+              id : user.id
+            }
+          }
         },
       });
 
       const RoleResponse = await GaveRoleToUser({
-        userId,
+        userId : user.id,
         Role: "Founder",
         companyId: newCompany.id,
       });

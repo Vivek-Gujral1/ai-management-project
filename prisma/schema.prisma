@@ -34,8 +34,12 @@ model User {
   verifyCodeExpiry DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  createdCompanyUsers Company[] // relation of user who cretaes company
+  createdCompanyUsers Company[] @relation("companyCreater") // relation of user who cretaes company
   userRoles   Role[] 
+  companyMembersId String[] @db.ObjectId
+  comapnyMembers Company[] @relation(fields: [companyMembersId] , references: [id])
+
+  
   @@map("users")
 }
 
@@ -57,12 +61,14 @@ model Company {
   name String
   email String?
   createdsUserId String @db.ObjectId // who creates company
-  createdUser User @relation(fields: [createdsUserId] , references: [id])
+  createdUser User @relation( "companyCreater",fields: [createdsUserId] , references: [id])
   sokcetRoomName String 
   verifyCode String?
   verifyCodeExpiry DateTime?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  MembersID     String[] @db.ObjectId
+  Members      User[]   @relation( fields: [MembersID], references: [id])
   companyRoles   Role[]
   departments    Department[]
   @@map("companies")
