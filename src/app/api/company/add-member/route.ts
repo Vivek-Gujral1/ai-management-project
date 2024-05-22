@@ -24,7 +24,7 @@ export async function POST(req : Request) {
     
     try {
 
-        const {Role} : {Role : userRole} = await req.json()
+      const {Role} : {Role : userRole} = await req.json()
       const { searchParams } = new URL(req.url);
       const queryParam = {
       companyID: searchParams.get("companyId"),
@@ -72,6 +72,18 @@ export async function POST(req : Request) {
             { status: 500 }
           ); 
      }
+     const updateCompanyMembers = await prisma.company.update({
+      where :{
+        id : company.id
+      } ,
+      data : {
+        Members : {
+          connect : {
+            id : user.id
+          }
+        }
+      }
+     })
      return Response.json(
       {
         success: true,
@@ -79,8 +91,6 @@ export async function POST(req : Request) {
       },
       { status: 200 }
     ); 
-      
-
 
     } catch (error) {
         console.error(error);
