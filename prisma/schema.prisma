@@ -40,6 +40,8 @@ model User {
   comapnyMembers Company[] @relation(fields: [companyMembersId] , references: [id])
    departmentMembersId String[] @db.ObjectId
   departMemebers Department[] @relation( fields: [departmentMembersId] , references: [id])
+   TaskSender      Task[]        @relation("TaskSender")
+     TaskReciver     Task[]        @relation("TaskReciver")
   
   @@map("users")
 }
@@ -85,8 +87,27 @@ model Department {
   departmentRoles Role[]
   MembersID     String[] @db.ObjectId
   Members      User[]   @relation( fields: [MembersID], references: [id])
+  Tasks          Task[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("departments")
+}
+
+model Task {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  title              String
+  content            String
+  isCompleted        Boolean  @default(false)
+  departmentId            String   @db.ObjectId
+  department              Department    @relation(fields: [departmentId], references: [id])
+  senderId           String   @db.ObjectId
+  sender             User    @relation("TaskSender", fields: [senderId], references: [id])
+  reciverId          String   @db.ObjectId
+  reciver            User    @relation("TaskReciver", fields: [reciverId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("tasks")
+
 }
