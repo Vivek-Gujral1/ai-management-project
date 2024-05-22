@@ -26,38 +26,71 @@ export async function POST(req : Request) {
       const { searchParams } = new URL(req.url);
       const queryParam = {
       departmentId: searchParams.get("departmentId"),
-      userID : searchParams.get("userId")
+      userId : searchParams.get("userId"),
+      companyId : searchParams.get("companyId")
      };
 
-     if (!queryParam.departmentId || !queryParam.userID) {
+     if (!queryParam.departmentId || !queryParam.userId || !queryParam.companyId) {
         throw new Error("Invalid Query Parameter")
      }
 
-     const department  = await prisma.department.findFirst({
-        where : {
-            id :queryParam.departmentId
-        }
+     const company = await prisma.company.findFirst({
+      where : {
+        id : queryParam.companyId
+      } ,
+      include : {
+        departments : true ,
+        Members : true
+      }
      })
 
-     if (!department) {
-        return Response.json({
-            success : false,
-            message : "Department not found"
-        } , {status : 401})
+     if (!company) {
+      return Response.json(
+        {
+          success: false,
+          message: "Company not found",
+        },
+        { status: 401 }
+      );
      }
 
-     const user = await prisma.user.findFirst({
-        where : {
-            id : queryParam.userID
-        }
-     })
+     // checking is department exists in company departments
+    
+      
+     const department = company.departments.find((department)=> department.id === queryParam.departmentId)
+
+     if (!department) {
+      return Response.json(
+        {
+          success: false,
+          message: "Department are not lying under company departments",
+        },
+        { status: 400 }
+      );
+     }
+  
+     const user = company.Members.find((member)=> member.id === queryParam.userId) 
 
      if (!user) {
         return Response.json({
             success : false,
-            message : "User not found"
+            message : "Firstly user should add in Company then department"
         } , {status : 401})
      }
+
+     const updateDepartment = await prisma.department.update({
+      where : {
+        id : department.id
+      } ,
+      data : {
+        Members : {
+          connect : {
+            id : user.id
+          }
+        }
+      }
+     })
+
 
      const gaveRole = await GaveRoleToUser({userId : user.id , depatmentId : queryParam.departmentId , Role})
 
@@ -77,8 +110,6 @@ export async function POST(req : Request) {
       },
       { status: 200 }
     ); 
-      
-
 
     } catch (error) {
         console.error(error);
