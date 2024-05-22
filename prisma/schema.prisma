@@ -38,7 +38,8 @@ model User {
   userRoles   Role[] 
   companyMembersId String[] @db.ObjectId
   comapnyMembers Company[] @relation(fields: [companyMembersId] , references: [id])
-
+   departmentMembersId String[] @db.ObjectId
+  departMemebers Department[] @relation( fields: [departmentMembersId] , references: [id])
   
   @@map("users")
 }
@@ -82,6 +83,8 @@ model Department {
   comapnyId String @db.ObjectId
   comapny Company @relation(fields: [comapnyId] , references: [id])
   departmentRoles Role[]
+  MembersID     String[] @db.ObjectId
+  Members      User[]   @relation( fields: [MembersID], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
