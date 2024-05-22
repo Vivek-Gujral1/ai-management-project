@@ -25,89 +25,89 @@ enum userRole {
 }
 
 model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String @unique
-  email String @unique
-  password String 
-  isVerified Boolean @default(false)
-  verifyCode   String
-  verifyCodeExpiry DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  createdCompanyUsers Company[] @relation("companyCreater") // relation of user who cretaes company
-  userRoles   Role[] 
-  companyMembersId String[] @db.ObjectId
-  comapnyMembers Company[] @relation(fields: [companyMembersId] , references: [id])
-   departmentMembersId String[] @db.ObjectId
-  departMemebers Department[] @relation( fields: [departmentMembersId] , references: [id])
-   TaskSender      Task[]        @relation("TaskSender")
-     TaskReciver     Task[]        @relation("TaskReciver")
-  
+  id                  String       @id @default(auto()) @map("_id") @db.ObjectId
+  name                String       @unique
+  email               String       @unique
+  password            String
+  isVerified          Boolean      @default(false)
+  verifyCode          String
+  verifyCodeExpiry    DateTime
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+  createdCompanyUsers Company[]    @relation("companyCreater") // relation of user who cretaes company
+  userRoles           Role[]
+  companyMembersId    String[]     @db.ObjectId
+  comapnyMembers      Company[]    @relation(fields: [companyMembersId], references: [id])
+  departmentMembersId String[]     @db.ObjectId
+  departMemebers      Department[] @relation(fields: [departmentMembersId], references: [id])
+  TaskSender          Task[]       @relation("TaskSender")
+  TaskReciver         Task[]       @relation("TaskReciver")
+
   @@map("users")
 }
 
 model Role {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  companyId String? @db.ObjectId // companyID
-  company Company? @relation(fields: [companyId] , references: [id])
-  departmentId String? @db.ObjectId 
-  department Department? @relation(fields: [departmentId] , references: [id])
-  userId  String @db.ObjectId // user who gets a role
-  user    User @relation(fields: [userId] , references: [id])
-  Role    userRole
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  companyId    String?     @db.ObjectId // companyID
+  company      Company?    @relation(fields: [companyId], references: [id])
+  departmentId String?     @db.ObjectId
+  department   Department? @relation(fields: [departmentId], references: [id])
+  userId       String      @db.ObjectId // user who gets a role
+  user         User        @relation(fields: [userId], references: [id])
+  Role         userRole
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 model Company {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  email String?
-  createdsUserId String @db.ObjectId // who creates company
-  createdUser User @relation( "companyCreater",fields: [createdsUserId] , references: [id])
-  sokcetRoomName String 
-  verifyCode String?
+  id               String       @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  email            String?
+  createdsUserId   String       @db.ObjectId // who creates company
+  createdUser      User         @relation("companyCreater", fields: [createdsUserId], references: [id])
+  sokcetRoomName   String
+  verifyCode       String?
   verifyCodeExpiry DateTime?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  MembersID     String[] @db.ObjectId
-  Members      User[]   @relation( fields: [MembersID], references: [id])
-  companyRoles   Role[]
-  departments    Department[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  MembersID        String[]     @db.ObjectId
+  Members          User[]       @relation(fields: [MembersID], references: [id])
+  companyRoles     Role[]
+  departments      Department[]
+
   @@map("companies")
 }
 
 model Department {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
-  headline String?
-  sokcetRoomName String 
-  comapnyId String @db.ObjectId
-  comapny Company @relation(fields: [comapnyId] , references: [id])
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  headline        String?
+  sokcetRoomName  String
+  comapnyId       String   @db.ObjectId
+  comapny         Company  @relation(fields: [comapnyId], references: [id])
   departmentRoles Role[]
-  MembersID     String[] @db.ObjectId
-  Members      User[]   @relation( fields: [MembersID], references: [id])
-  Tasks          Task[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  MembersID       String[] @db.ObjectId
+  Members         User[]   @relation(fields: [MembersID], references: [id])
+  Tasks           Task[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   @@map("departments")
 }
 
 model Task {
-  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  title              String
-  content            String
-  isCompleted        Boolean  @default(false)
-  departmentId            String   @db.ObjectId
-  department              Department    @relation(fields: [departmentId], references: [id])
-  senderId           String   @db.ObjectId
-  sender             User    @relation("TaskSender", fields: [senderId], references: [id])
-  reciverId          String   @db.ObjectId
-  reciver            User    @relation("TaskReciver", fields: [reciverId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  content      String
+  isCompleted  Boolean    @default(false)
+  departmentId String     @db.ObjectId
+  department   Department @relation(fields: [departmentId], references: [id])
+  senderId     String     @db.ObjectId
+  sender       User       @relation("TaskSender", fields: [senderId], references: [id])
+  reciverId    String     @db.ObjectId
+  reciver      User       @relation("TaskReciver", fields: [reciverId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   @@map("tasks")
-
 }
