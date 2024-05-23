@@ -21,7 +21,12 @@ import { FaTasks } from "react-icons/fa";
 import { IoMdVideocam } from "react-icons/io";
 import {Avatar , AvatarFallback , AvatarImage} from "@/components/ui/avatar"
 import { CiSearch } from "react-icons/ci";
-
+import { GiPostStamp } from "react-icons/gi";
+import { FaRegUser } from "react-icons/fa6";
+import { MdOutlineNotifications } from "react-icons/md";
+import { ImUsers } from "react-icons/im";
+import { MdOutlineCreateNewFolder } from "react-icons/md";
+import { CiSettings } from "react-icons/ci";
 
 interface NavbarItem {
     name : String
@@ -55,8 +60,8 @@ function Navbar() {
             icon : <FaTasks />
         } ,
         {
-            name : "Video-Call" ,
-            path : "/video-call" ,
+            name : "Companies" ,
+            path : "/companies" ,
             icon : <IoMdVideocam />
         } ,
     ]
@@ -65,22 +70,27 @@ function Navbar() {
       {
         name : " Your Profile" ,
         path : "/profile" ,
-        icon : ""
+        icon : <FaRegUser />
       } ,
       {
-        name : " Your Companies" ,
-        path : "/comapnies" ,
-        icon : ""
+        name : " Switch-Account" ,
+        path : "/Switch" ,
+        icon : <ImUsers />
       } ,
       {
-        name : " Your Departments" ,
-        path : "/profile" ,
-        icon : ""
+        name : "Notifications" ,
+        path : "/notifications" ,
+        icon : <MdOutlineNotifications />
+      } ,
+      {
+        name : "Create Post" ,
+        path : "/create" ,
+        icon : <MdOutlineCreateNewFolder />
       },
       {
-        name : "Setting" ,
+        name : "Settings" ,
         path : "/settings" ,
-        icon : ""
+        icon : <CiSettings />
       }
     ]
 
@@ -111,7 +121,9 @@ function Navbar() {
                 
                 </div>
               </div>
-              
+              <Separator />
+              <SheetTitle className=" text-black mt-4">Media</SheetTitle>
+              <Link  className=" mt-3 flex flex-row items-center gap-2 h-8 hover:bg-slate-200 hover:rounded-md pl-2" href={`/posts`} > <GiPostStamp /> Posts</Link>
             </SheetContent>
           </Sheet>
         </div>
@@ -120,9 +132,7 @@ function Navbar() {
           <Input  type="search"  placeholder={` Search here ...`}></Input>
         </div>
 
-        <div className=" border border-white w-14 h-2/3">
-
-        </div>
+        
 
         <div>
         <Sheet>
