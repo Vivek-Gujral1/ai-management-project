@@ -64,6 +64,7 @@ model Company {
   id               String       @id @default(auto()) @map("_id") @db.ObjectId
   name             String
   email            String?
+  isEmailVerified   Boolean @default(false)
   createdsUserId   String       @db.ObjectId // who creates company
   createdUser      User         @relation("companyCreater", fields: [createdsUserId], references: [id])
   sokcetRoomName   String

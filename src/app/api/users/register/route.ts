@@ -46,7 +46,7 @@ export async function POST (req : Request) {
             }else{
                 // in this case we tackle for if one user registers and not verified his email and second user comes and registers with same email then we give email to second user if second user verifies email
                 const hashedPassword = await bcrypt.hash(password , 10)
-                await prisma.user.update({
+            const user = await prisma.user.update({
                     where : {
                         id : existedUserByEmail.id
                     } ,
@@ -55,7 +55,7 @@ export async function POST (req : Request) {
                         verifyCode  ,
                         verifyCodeExpiry : new Date(Date.now() +  3600000)
                     }
-                })
+                })    
             }
         }else{
          const hashedPassword = await bcrypt.hash(password , 10)
@@ -72,8 +72,21 @@ export async function POST (req : Request) {
 
             }
          })
+           
+         // making profile of a user
+         await prisma.profile.create({
+            data : {
+                user : {
+                    connect : {
+                        id : newUser.id
+                    }
+                }
+            }
+         })
         
         }
+
+
 
          // send verification email
          const emailResponse = await SendVerificationEmail(email , name , verifyCode)
