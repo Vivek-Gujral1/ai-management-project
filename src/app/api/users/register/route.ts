@@ -80,7 +80,9 @@ export async function POST (req : Request) {
                     connect : {
                         id : newUser.id
                     }
-                }
+                } ,
+                name ,
+                email
             }
          })
         
