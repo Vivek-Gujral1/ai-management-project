@@ -42,6 +42,7 @@ model User {
   departMemebers      Department[] @relation(fields: [departmentMembersId], references: [id])
   TaskSender          Task[]       @relation("TaskSender")
   TaskReciver         Task[]       @relation("TaskReciver")
+  userProfile         Profile?
 
   @@map("users")
 }
@@ -74,6 +75,7 @@ model Company {
   Members          User[]       @relation(fields: [MembersID], references: [id])
   companyRoles     Role[]
   departments      Department[]
+  companyProfile   Profile?
 
   @@map("companies")
 }
@@ -110,4 +112,19 @@ model Task {
   updatedAt    DateTime   @updatedAt
 
   @@map("tasks")
+}
+
+model Profile {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String?  @unique @db.ObjectId
+  user       User?    @relation(fields: [userId], references: [id])
+  companyId  String?  @unique @db.ObjectId
+  company    Company? @relation(fields: [companyId], references: [id])
+  headline   String?
+  bio        String?
+  contactMe  String?
+  avatar     String?
+  coverImage String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
