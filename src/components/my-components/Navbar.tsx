@@ -128,8 +128,11 @@ function Navbar() {
           </Sheet>
         </div>
 
-        <div className="  w-1/2 ">
-          <Input  type="search"  placeholder={` Search here ...`}></Input>
+        <div className="  lg:w-1/2 w-full">
+        <div className="flex w-full max-w-sm items-center space-x-2">
+      <Input type="search" placeholder="Search Here" />
+      <Button type="button" className=" bg-white text-black hover:bg-white hover:text-black">Search</Button>
+    </div>
         </div>
 
         
