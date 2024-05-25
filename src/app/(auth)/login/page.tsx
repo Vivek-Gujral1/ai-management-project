@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { signIn } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 import {
   Form,
   FormField,
@@ -17,10 +17,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { loginSchema } from '@/zod-types/login-Schema';
+import { useDispatch } from 'react-redux';
+import { login } from '@/store/user/userSlice';
 
 export default function SignInForm() {
   const router = useRouter();
-
+  const dispatch = useDispatch()
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -55,6 +57,10 @@ export default function SignInForm() {
 
     if (result?.url) {
       form.reset()
+      const session = await getSession()
+      if (session ) {
+        dispatch(login(session.user))
+      }
       router.replace('/');
     }
   };

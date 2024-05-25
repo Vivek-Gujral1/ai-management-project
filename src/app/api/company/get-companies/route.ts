@@ -18,6 +18,8 @@ export async function GET(req : Request) {
 
   try {
     
+   
+
     const companies = await prisma.company.findMany({
         where : {
             Members : {
@@ -48,8 +50,9 @@ export async function GET(req : Request) {
         {
           success: true,
           message: " User companies fetched ",
+          companies
         },
-        { status: 500 }
+        { status: 200 }
       );
 
   } catch (error) {
@@ -64,3 +67,5 @@ export async function GET(req : Request) {
     );
   }
 }
+
+

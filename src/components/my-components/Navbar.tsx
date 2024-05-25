@@ -46,7 +46,7 @@ function Navbar() {
     },
     {
       name: "Discussions",
-      path: "/discussions",
+      path: "/message/company",
       icon: <IoChatboxEllipsesOutline />,
     },
     {

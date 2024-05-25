@@ -6,22 +6,22 @@ import { GaveRoleToUser } from "@/utils/role/GaveRoleToUser";
 import { Company } from "@prisma/client";
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user) {
-    return Response.json(
-      {
-        success: false,
-        message: "Not Authenticated",
-      },
-      { status: 401 }
-    );
-  }
+  // const session = await getServerSession(authOptions);
+  // if (!session || !session.user) {
+  //   return Response.json(
+  //     {
+  //       success: false,
+  //       message: "Not Authenticated",
+  //     },
+  //     { status: 401 }
+  //   );
+  // }
 
-  const user = session.user;
+  // const user = session.user;
   try {
     const { name, email }: { name: string; email?: string } = await req.json();
-
-    const sokcetRoomName = `${user.id}_${name}`;
+    const userId = "664df0aa788b92a19149af7d"
+    const sokcetRoomName = `${userId}_${name}`;
     // creates socket room named  to ensure that with socket.io, only one room is created with the same name and no duplicate rooms are  created.
     const exisitingCompany = await prisma.company.findFirst({
       where: {
@@ -186,18 +186,19 @@ export async function POST(req: Request) {
         );
       }
     } else {
+      const userId = "664df0aa788b92a19149af7d"
       const newCompany = await prisma.company.create({
         data: {
           name,
           sokcetRoomName,
           createdUser: {
             connect: {
-              id: user.id,
+              id: userId,
             },
           },
           Members: {
             connect: {
-              id: user.id,
+              id: userId,
             },
           },
         },
@@ -217,7 +218,7 @@ export async function POST(req: Request) {
       });
 
       const RoleResponse = await GaveRoleToUser({
-        userId: user.id,
+        userId: userId,
         Role: "Founder",
         companyId: newCompany.id,
       });

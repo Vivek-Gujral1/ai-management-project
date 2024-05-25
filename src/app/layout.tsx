@@ -7,6 +7,8 @@ const inter = Inter({ subsets: ["latin"] });
 import Container from "@/components/my-components/Container";
 import Navbar from "@/components/my-components/Navbar";
 import QueryProvider from "@/context/QueryProvider";
+import StoreProvider from "@/context/StoreProvider";
+import { SocketProvider } from "./custom-Hooks/SocketProvider";
 
 export const metadata: Metadata = {
   title: "AI-Management",
@@ -19,17 +21,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <StoreProvider>
       <AuthProvider>
         <QueryProvider>
           <body className={inter.className}>
+            <SocketProvider>
             <Container>
               <Navbar />
               {children}
               <Toaster />
             </Container>
+            </SocketProvider>
           </body>
         </QueryProvider>
       </AuthProvider>
+      </StoreProvider>
     </html>
   );
 }
