@@ -139,6 +139,8 @@ export async function POST(req: Request) {
                 id: newCompany.id,
               },
             },
+            name : newCompany.name ,
+            email : newCompany.email ? newCompany.email : ""
           },
         });
         // gaving role to user
@@ -209,6 +211,8 @@ export async function POST(req: Request) {
               id: newCompany.id,
             },
           },
+          name : newCompany.name,
+          email : newCompany.email ? newCompany.email : ""
         },
       });
 
