@@ -43,7 +43,7 @@ model User {
   TaskSender          Task[]       @relation("TaskSender")
   TaskReciver         Task[]       @relation("TaskReciver")
   userProfile         Profile?
-
+  sendMessages        Message[]
   @@map("users")
 }
 
@@ -122,12 +122,24 @@ model Profile {
   companyId  String?  @unique @db.ObjectId
   company    Company? @relation(fields: [companyId], references: [id])
   name       String
-  email      String
+  email      String?
   headline   String?
   bio        String?
   contactMe  String?
   avatar     String?
-  coverImage String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
+
+model Message{
+  
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  content    String
+  senderId    String     @db.ObjectId
+  sender      User     @relation(fields: [senderId],references: [id])
+  GroupSocketRoomName String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("messages")
+} 
