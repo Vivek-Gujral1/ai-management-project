@@ -6,22 +6,22 @@ import { GaveRoleToUser } from "@/utils/role/GaveRoleToUser";
 import { Company } from "@prisma/client";
 
 export async function POST(req: Request) {
-  // const session = await getServerSession(authOptions);
-  // if (!session || !session.user) {
-  //   return Response.json(
-  //     {
-  //       success: false,
-  //       message: "Not Authenticated",
-  //     },
-  //     { status: 401 }
-  //   );
-  // }
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user) {
+    return Response.json(
+      {
+        success: false,
+        message: "Not Authenticated",
+      },
+      { status: 401 }
+    );
+  }
 
-  // const user = session.user;
+  const user = session.user;
   try {
     const { name, email }: { name: string; email?: string } = await req.json();
-    const userId = "664df0aa788b92a19149af7d"
-    const sokcetRoomName = `${userId}_${name}`;
+   
+    const sokcetRoomName = `${user.id}_${name}`;
     // creates socket room named  to ensure that with socket.io, only one room is created with the same name and no duplicate rooms are  created.
     const exisitingCompany = await prisma.company.findFirst({
       where: {
@@ -131,18 +131,7 @@ export async function POST(req: Request) {
           },
         });
 
-        // making profile for company
-        await prisma.profile.create({
-          data: {
-            company: {
-              connect: {
-                id: newCompany.id,
-              },
-            },
-            name : newCompany.name ,
-            email : newCompany.email ? newCompany.email : ""
-          },
-        });
+        
         // gaving role to user
         const RoleResponse = await GaveRoleToUser({
           userId: user.id,
@@ -201,19 +190,6 @@ export async function POST(req: Request) {
               id: userId,
             },
           },
-        },
-      });
-
-      // makes profile for company
-      await prisma.profile.create({
-        data: {
-          company: {
-            connect: {
-              id: newCompany.id,
-            },
-          },
-          name : newCompany.name,
-          email : newCompany.email ? newCompany.email : ""
         },
       });
 

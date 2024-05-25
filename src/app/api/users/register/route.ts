@@ -73,18 +73,7 @@ export async function POST (req : Request) {
             }
          })
            
-         // making profile of a user
-         await prisma.profile.create({
-            data : {
-                user : {
-                    connect : {
-                        id : newUser.id
-                    }
-                } ,
-                name ,
-                email
-            }
-         })
+        
         
         }
 

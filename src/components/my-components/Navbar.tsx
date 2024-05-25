@@ -85,8 +85,8 @@ function Navbar() {
   ];
 
   return (
-    <>
-      <nav className="h-14 flex flex-row items-center ml-4 justify-between mr-4">
+   <main className="bg-slate-800">
+      <nav className="  h-14 flex flex-row items-center ml-4 justify-between mr-4">
         <div>
           <Sheet>
             <SheetTrigger asChild>
@@ -182,7 +182,7 @@ function Navbar() {
         </div>
       </nav>
       <Separator className=" bg-gray-600 mt-2" />
-    </>
+    </main>
   );
 }
 

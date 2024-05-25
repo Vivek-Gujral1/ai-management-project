@@ -3,5 +3,5 @@ export default function Container({
   }: {
     children: React.ReactNode
   }) {
-    return <section className="h-screen w-screen bg-[#121212]">{children}</section>
+    return <section className="h-screen w-screen bg-white">{children}</section>
   }
