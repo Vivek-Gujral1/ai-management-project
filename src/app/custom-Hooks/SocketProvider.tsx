@@ -12,6 +12,7 @@ import { io, Socket } from "socket.io-client";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { IMessage } from "@/types/ApiResponse";
 
 interface SocketProviderProps {
   children?: React.ReactNode;
@@ -143,7 +144,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         return false;
       }
       const create = await axios.post(
-        `/api/messages/create-message?GroupName=${roomName}`,
+        `/api/messages/send-message?GroupSocketRoomName=${roomName}`,
         {
           content: Message.content,
         }

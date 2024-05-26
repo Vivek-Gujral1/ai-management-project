@@ -1,6 +1,6 @@
 import { Company, User } from "@prisma/client";
 
- export interface Companies {
+export interface Companies {
   sokcetRoomName: string;
   createdAt: Date;
   name: string;
@@ -8,10 +8,25 @@ import { Company, User } from "@prisma/client";
   id: string;
 }
 
+interface user {
+  createdAt: Date;
+  name: string;
+  email?: string;
+  id: string;
+  avatar?: string;
+  headline?: string;
+}
+
+export interface IMessage {
+  content: string,
+  sender : user
+ }
+
 export interface ApiResponse {
   success: boolean;
   message: string;
   companies?: Array<Companies>;
   users?: Array<User>;
-  userProfile?: User;
+  user?: user;
+  messages? : Array<IMessage>
 }

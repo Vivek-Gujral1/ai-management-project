@@ -7,6 +7,9 @@ import {  useDispatch } from 'react-redux'
 import { useQueryClient } from "@tanstack/react-query";
 import { inCompany } from '@/store/company/slice'
 import { AppDispatch } from '@/store/store'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import dayjs from 'dayjs';
+import {Avatar , AvatarFallback , AvatarImage} from "@/components/ui/avatar"
 
 
 function CompaniesCard({Company} : {Company : Companies}) {
@@ -30,15 +33,25 @@ function CompaniesCard({Company} : {Company : Companies}) {
     }
   }
   return (
-    <div onClick={async()=> await handleClick()} className="bg-white shadow-md rounded-md p-4 flex items-center cursor-pointer ">
-    {/* <img className="w-16 h-16 rounded-full mr-4 border border-white" src="" alt="User Avatar" /> */}
-    
-    <div className=' ml-3'>
-      <h2 className="text-xl font-semibold">{Company.name}</h2>
-      <p className="text-gray-600">{Company.email}</p>
-      {/* <p className="text-gray-800">{headline}</p> */}
-    </div>
-  </div>
+    <Card onClick={async() => await handleClick()} className="card-bordered cursor-pointer ">
+      <CardHeader>
+        <div className="flex gap-6 items-center">
+          <Avatar  >
+            <AvatarFallback >CN</AvatarFallback>
+            <AvatarImage ></AvatarImage>
+          </Avatar>
+          <CardTitle>{Company.name}</CardTitle>
+         
+        </div>
+        <p>This is Company Bio</p>
+        <div className="text-sm ">
+         <span className=' text-md'>Since</span> {dayjs(Company.createdAt).format('MMM D, YYYY ')}
+        </div>
+      </CardHeader>
+     
+      
+      
+    </Card>
   )
 }
 

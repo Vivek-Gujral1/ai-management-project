@@ -143,7 +143,7 @@ function Navbar() {
 
         <div>
           <Sheet>
-            <SheetTrigger asChild>
+            <SheetTrigger className=" mr-4" asChild>
               <Avatar>
                 <AvatarFallback className=" cursor-pointer">CN</AvatarFallback>
               </Avatar>

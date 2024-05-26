@@ -1,14 +1,12 @@
-"use client"
-import CompaniesCard from '@/components/my-components/CompaniesCard'
-import { SkeletonDemo } from '@/components/my-components/Skeleton'
-import { Skeleton } from '@/components/ui/skeleton'
 import { getCompanies } from '@/queryFunctions/company/company'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
+import { Skeleton } from '../ui/skeleton'
+import CompaniesCard from './CompaniesCard'
 
-function page() {
+function UserCompanies() {
     const {data : companies , isLoading} = useQuery({
-        queryKey : ["message/companies"],
+        queryKey : ["message/company"],
         queryFn : async () => getCompanies()
     })
     if (isLoading) {
@@ -17,9 +15,8 @@ function page() {
     if(!companies || companies.length  === 0){
        return <h1 className=' text-white'>Nothing to show</h1>
     }
-    
   return (
-   <main className=' flex flex-col gap-5 mt-5 lg:grid lg:grid-cols-2 lg:gap-3 '>
+    <main className=' flex flex-col gap-5 mt-5 lg:grid lg:grid-cols-2 lg:gap-3 '>
     {companies.map((company)=>(
         <CompaniesCard Company={company} />
     ))}
@@ -27,4 +24,4 @@ function page() {
   )
 }
 
-export default page
+export default UserCompanies

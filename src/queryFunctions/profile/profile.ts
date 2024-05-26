@@ -5,8 +5,8 @@ export const getUserProfile = async (userId :string) => {
      try {
         console.log(userId);
         
-        const response = await axios.get<ApiResponse>(`/api/profile/get-user-profile?userId=${userId}`)
-        return response.data.userProfile
+        const response = await axios.get<ApiResponse>(`/api/users/get-user?userId=${userId}`)
+        return response.data.user
      } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>
         console.log(axiosError);

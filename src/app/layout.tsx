@@ -5,7 +5,7 @@ import { AuthProvider } from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 import Container from "@/components/my-components/Container";
-import Navbar from "@/components/my-components/Navbar";
+
 import QueryProvider from "@/context/QueryProvider";
 import StoreProvider from "@/context/StoreProvider";
 import { SocketProvider } from "./custom-Hooks/SocketProvider";
@@ -27,7 +27,7 @@ export default function RootLayout({
           <body className={inter.className}>
             <SocketProvider>
             <Container>
-              <Navbar />
+            
               {children}
               <Toaster />
             </Container>
