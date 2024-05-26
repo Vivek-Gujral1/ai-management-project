@@ -25,8 +25,8 @@ function Profile({userId}: {userId : string}) {
     <main className=" h-full w-full mt-4">
       <section className=" h-1/4 w-full  p-4 flex flex-col gap-6">
         <div className=" h-1/2 w-full  flex flex-row gap-6 items-center">
-          <div className=" h-24 w-24 rounded-full border border-black">
-            <img src={userProfileData?.avatar ? userProfileData.avatar : ""} alt="" />
+          <div className=" h-24 w-24 rounded-full ">
+            <img src={userProfileData?.avatar ? userProfileData.avatar : ""} alt="" className=" h-full w-full"/>
           </div>
           <div className=" flex flex-col gap-2 ">
             <h2 className="  text-3xl font-semibold">{userProfileData?.name}</h2>
@@ -34,7 +34,7 @@ function Profile({userId}: {userId : string}) {
         </div>
         <div className=" h-1/2 w-full  ">
           <p className="  break-words">
-          {userProfileData?.headline ? userProfileData.headline : ""}  Mern Stack and Nextjs Web Developer  
+          {userProfileData?.headline ? userProfileData.headline : ""}  
           </p>
         </div>
         <div className="  lg:w-1/3 flex flex-col justify-center lg:flex-row  lg:items-center lg:gap-4">
