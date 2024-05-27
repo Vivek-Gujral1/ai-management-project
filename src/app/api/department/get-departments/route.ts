@@ -20,11 +20,11 @@ export async function GET(req : Request) {
     
     const departments = await prisma.department.findMany({
         where : {
-            Members : {
-                some : {
-                    id : user.id
-                }
+           Members : {
+            some : {
+              id : user.id
             }
+           }
         } ,
         select :{
             sokcetRoomName : true ,
@@ -32,12 +32,17 @@ export async function GET(req : Request) {
             name : true ,
             comapny : {
               select : {
-                sokcetRoomName : true ,
-                name : true ,
-                id : true
+                sokcetRoomName: true,
+                createdAt: true,
+                name: true,
+                email: true,
+                id: true,
+                avatar : true,
+                headline : true
               }
-            }, // Todo update this with get comapny select items
-            id : true
+            },
+            id : true ,
+            headline : true
         }
     })
 
@@ -54,8 +59,10 @@ export async function GET(req : Request) {
         {
           success: true,
           message: " User departments fetched ",
+          departments : departments
+
         },
-        { status: 500 }
+        { status: 200 }
       );
 
   } catch (error) {

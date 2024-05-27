@@ -6,8 +6,8 @@ export interface Companies {
   name: string;
   email: string | null;
   id: string;
-  avatar : string | null
-  headline : string  | null
+  avatar: string | null
+  headline: string | null
 }
 
 interface user {
@@ -21,18 +21,28 @@ interface user {
 
 export interface IMessage {
   content: string,
-  sender : user
- }
+  sender: user
+}
 
 export interface ICompany {
-  sokcetRoomName : string ,
-  createdAt : Date ,
-  name : string ,
-  email : string | null,
-  id : string ,
-  avatar : string | null ,
-  headline : string | null
-} 
+  sokcetRoomName: string,
+  createdAt: Date,
+  name: string,
+  email: string | null,
+  id: string,
+  avatar: string | null,
+  headline: string | null
+}
+
+export interface Idepartments {
+  sokcetRoomName: string,
+  createdAt: Date,
+  name: string,
+  comapny: Companies,
+  id: true,
+  headline: true
+}
+
 
 export interface ApiResponse {
   success: boolean;
@@ -40,6 +50,7 @@ export interface ApiResponse {
   companies?: Array<Companies>;
   users?: Array<User>;
   user?: user;
-  messages? : Array<IMessage>
-  company : ICompany
+  messages?: Array<IMessage>
+  company: ICompany
+  departments?: Array<Idepartments>
 }

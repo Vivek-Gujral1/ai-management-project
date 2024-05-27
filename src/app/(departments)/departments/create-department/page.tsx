@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
+
 function Page() {
   const queryClient = useQueryClient()
   const router  = useRouter()
@@ -59,8 +60,8 @@ function Page() {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="pt-8 text-4xl font-semibold">Create Company</h1>
-      <div className="h-96 lg:w-2/5 w-full  mt-8">
+      <h1 className="pt-8 text-4xl font-semibold ">Create Department</h1>
+      <div className="h-96 lg:w-2/5 w-full mt-8">
         <form onSubmit={handleSubmit(create)}>
           <div className="flex flex-col gap-4">
             <label htmlFor="name">Name</label>
@@ -78,11 +79,13 @@ function Page() {
               type="text"
               placeholder="Enter Company Email (Optional)"
             />
+             
             <Button type="submit" variant="default" disabled={creating}>
               {creating ? "Creating..." : "Create Company"}
             </Button>
           </div>
         </form>
+     
       </div>
     </div>
   );
