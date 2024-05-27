@@ -8,7 +8,7 @@ export default function Container({
       <nav>
       <Navbar />
       </nav>
-     <main className=" p-10">
+     <main className=" h-screen w-screen p-10">
      {children}
      </main>
       </section>

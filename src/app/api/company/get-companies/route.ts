@@ -36,6 +36,9 @@ export async function GET(req : Request) {
             id : true ,
             avatar : true ,
             headline : true
+        } ,
+        orderBy :{
+          createdAt : "desc"
         }
     })
 

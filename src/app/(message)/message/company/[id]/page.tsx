@@ -65,7 +65,7 @@ function page() {
   };
 
   return (
-    <main className=' h-5/6 w-full'>
+    <main className=' h-full w-full'>
     <Chat/>
     </main>
   )

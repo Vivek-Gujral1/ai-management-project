@@ -31,9 +31,10 @@ function Profile({CompanyId}: {CompanyId : string}) {
           </div>
           <div className=" flex flex-col gap-2 ">
             <h2 className="  text-3xl font-semibold">{userProfileData?.name}</h2>
+            <p>{userProfileData?.email}</p>
           </div>
         </div>
-        <div className=" h-1/2 w-full  ">
+        <div className=" h-1/2 w-full mt-4 ">
           <p className="  break-words">
           {userProfileData?.headline ? userProfileData.headline : ""}  
           </p>
@@ -43,8 +44,8 @@ function Profile({CompanyId}: {CompanyId : string}) {
           <DialogDemo CompanyId={CompanyId}/>
         </div>
       </section>
-      <br />
-      <Separator />
+   
+      <Separator className=" mt-10 lg:mt-20"/>
       <br />
      <section>
      <div className=" flex flex-row justify-center items-center">

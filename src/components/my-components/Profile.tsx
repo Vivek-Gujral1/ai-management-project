@@ -32,7 +32,7 @@ function Profile({userId}: {userId : string}) {
             <h2 className="  text-3xl font-semibold">{userProfileData?.name}</h2>
           </div>
         </div>
-        <div className=" h-1/2 w-full  ">
+        <div className=" h-1/2 w-full mt-4 ">
           <p className="  break-words">
           {userProfileData?.headline ? userProfileData.headline : ""}  
           </p>
@@ -42,8 +42,8 @@ function Profile({userId}: {userId : string}) {
           <DialogDemo />
         </div>
       </section>
-      <br />
-      <Separator />
+      
+      <Separator className="lg: mt-20 "/>
       <br />
      <section>
      <div className=" flex flex-row justify-center items-center">
