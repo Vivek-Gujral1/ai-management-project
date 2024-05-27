@@ -26,7 +26,7 @@ interface FormType {
 }
 
 export function DialogDemo() {
-  const { handleSubmit, register } = useForm<FormType>();
+  const { handleSubmit, register , reset } = useForm<FormType>();
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const [isUpdating, setIsUpdating] = useState(false);
@@ -51,7 +51,7 @@ export function DialogDemo() {
             toast({
               title: "Headline Updated",
             });
-
+           reset()
             await queryClient.invalidateQueries({ queryKey: ["profile/user"] });
           } else {
             toast({
