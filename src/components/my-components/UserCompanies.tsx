@@ -2,7 +2,7 @@ import { getCompanies } from '@/queryFunctions/company/company'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { Skeleton } from '../ui/skeleton'
-import CompaniesCard from './CompaniesCard'
+import CompaniesCard from './ChatCompaniesCard'
 
 function UserCompanies() {
     const {data : companies , isLoading} = useQuery({

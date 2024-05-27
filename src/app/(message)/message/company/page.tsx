@@ -1,5 +1,5 @@
 "use client"
-import CompaniesCard from '@/components/my-components/CompaniesCard'
+import CompaniesCard from '@/components/my-components/ChatCompaniesCard'
 import { SkeletonDemo } from '@/components/my-components/Skeleton'
 import { Skeleton } from '@/components/ui/skeleton'
 import { getCompanies } from '@/queryFunctions/company/company'
