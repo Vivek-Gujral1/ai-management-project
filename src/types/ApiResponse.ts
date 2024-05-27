@@ -6,6 +6,8 @@ export interface Companies {
   name: string;
   email: string | null;
   id: string;
+  avatar : string | null
+  headline : string  | null
 }
 
 interface user {

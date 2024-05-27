@@ -33,7 +33,9 @@ export async function GET(req : Request) {
             createdAt : true ,
             name : true ,
             email : true ,
-            id : true
+            id : true ,
+            avatar : true ,
+            headline : true
         }
     })
 

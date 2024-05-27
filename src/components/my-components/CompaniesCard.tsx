@@ -35,12 +35,12 @@ function CompaniesCard({Company} : {Company : Companies}) {
         <div className="flex gap-6 items-center">
           <Avatar  >
             <AvatarFallback >CN</AvatarFallback>
-            <AvatarImage ></AvatarImage>
+            <AvatarImage src={Company.avatar ? Company.avatar : ""} ></AvatarImage>
           </Avatar>
           <CardTitle>{Company.name}</CardTitle>
          
         </div>
-        <p>This is Company Bio</p>
+        <p>{Company.headline }</p>
         <div className="text-sm ">
          <span className=' text-md'>Since</span> {dayjs(Company.createdAt).format('MMM D, YYYY ')}
         </div>

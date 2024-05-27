@@ -9,6 +9,7 @@ import { Skeleton } from "../ui/skeleton";
 import UserCompanies from "./UserCompanies";
 import { useSession } from "next-auth/react";
 import { DialogDemo } from "./EditCompanyProfile";
+import UsersPage from "./Members";
 
 function Profile({CompanyId}: {CompanyId : string}) {
   const {data : session} = useSession()
@@ -47,9 +48,9 @@ function Profile({CompanyId}: {CompanyId : string}) {
       <br />
      <section>
      <div className=" flex flex-row justify-center items-center">
-      <h2 className=" text-xl font-medium">Work in Companies</h2>
+      <h2 className=" text-xl font-medium">Company Members</h2>
      </div>
-     <UserCompanies />
+     <UsersPage />
      </section>
     </main>
   );

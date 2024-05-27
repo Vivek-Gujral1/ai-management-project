@@ -1,5 +1,6 @@
 "use client"
 import { useState } from 'react';
+import { Button } from '../ui/button';
 
 type User = {
   id: number;
@@ -31,13 +32,21 @@ const UsersPage = () => {
           </li>
         ))}
       </ul>
-      {!showAll && (
+      {/* {!showAll && (
         <button
           onClick={() => setShowAll(true)}
-          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-slate-900-600"
         >
           Show All Users
         </button>
+      )} */}
+      {!showAll && (
+        <Button
+          onClick={() => setShowAll(true)}
+          className="mt-4 px-4 py-2 "
+        >
+          Show All Users
+        </Button>
       )}
     </div>
   );
