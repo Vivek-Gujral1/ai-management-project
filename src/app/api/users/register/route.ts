@@ -57,7 +57,8 @@ export async function POST (req : Request) {
                     }
                 })    
             }
-        }else{
+        }
+        else{
          const hashedPassword = await bcrypt.hash(password , 10)
          const expiryDate = new Date()
          expiryDate.setHours(expiryDate.getHours() + 1)
@@ -73,6 +74,16 @@ export async function POST (req : Request) {
             }
          })
            
+         // makes friends profile 
+         await prisma.friendsList.create({
+            data  : {
+                user : {
+                    connect : {
+                        id : newUser.id
+                    }
+                }
+            }
+         })
         
         
         }

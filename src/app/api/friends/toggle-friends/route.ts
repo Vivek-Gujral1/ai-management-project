@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import prisma from "@/constants/prisma";
 import { authOptions } from "../../auth/[...nextauth]/options";
 
-export async function POST(req: Request) {
+export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session || !session.user) {
     return Response.json(
@@ -17,6 +17,8 @@ export async function POST(req: Request) {
   const user = session.user;
 
   try {
+    console.log("chala");
+    
     const { searchParams } = new URL(req.url);
     const queryParam = {
       friendID: searchParams.get("friendID"),
@@ -35,7 +37,7 @@ export async function POST(req: Request) {
     if (!friend) {
       return Response.json(
         {
-          message: "User not found",
+          message: "Friend not found",
           success: false,
         },
         { status: 401 }
@@ -53,14 +55,25 @@ export async function POST(req: Request) {
     });
 
     if (!userFrindsProfile) {
-      return Response.json(
-        {
-          success: false,
-          message: "User Friends Profile Not Found",
-        },
-        { status: 401 }
-      );
+      return Response.json({
+        success : false ,
+        message : "User Friends Profile not found"
+      })
     }
+
+    const friendFriendsProfile  = await prisma.friendsList.findFirst({
+      where : {
+        userId : friend.id
+      }
+    })
+
+    if (!friendFriendsProfile) {
+      return Response.json({
+        success : false ,
+        message : `${friend.name} Friends Profile not found`
+      })
+    }
+
 
     const check = userFrindsProfile?.friendsID;
 
@@ -70,7 +83,7 @@ export async function POST(req: Request) {
       // removes friend from user friends profile and friend friends profile
       await prisma.friendsList.update({
         where: {
-          userId: user.id,
+         id : userFrindsProfile.id
         },
         data: {
           friends: {
@@ -83,7 +96,7 @@ export async function POST(req: Request) {
 
       await prisma.friendsList.update({
         where: {
-          userId: friend.id,
+          id : friendFriendsProfile.id
         },
         data: {
           friends: {
@@ -102,62 +115,43 @@ export async function POST(req: Request) {
         { status: 200 }
       );
     }
+
+
     // makes friends
-    // in this we use prisma upsert "upsert means if user friends profile are not created then create friends profile if user friends already cretaes then update profile "
-    await prisma.friendsList.upsert({
+   
+    await prisma.friendsList.update({
       where: {
-        userId: user.id,
+        id : userFrindsProfile.id
       },
-      update: {
+       data : {
         friends: {
           connect: {
             id: friend.id,
           },
         },
       },
-      create: {
-        user: {
-          connect: {
-            id: user.id,
-          },
-        },
-        friends: {
-          connect: {
-            id: friend.id,
-          },
-        },
-      },
+     
     });
 
     // update in friend Prfoile
-    await prisma.friendsList.upsert({
+    
+    await prisma.friendsList.update({
       where: {
-        userId: friend.id,
+        id : friendFriendsProfile.id
       },
-      create: {
-        user: {
-          connect: {
-            id: friend.id,
-          },
-        },
+       data : {
         friends: {
           connect: {
             id: user.id,
           },
         },
       },
-      update: {
-        friends: {
-          connect: {
-            id: user.id,
-          },
-        },
-      },
+     
     });
 
     return Response.json(
       {
-        message: "Friends Created Successfully",
+        message: `${friend.name} Added to Your Friend List`,
         success: true,
       },
       { status: 200 }

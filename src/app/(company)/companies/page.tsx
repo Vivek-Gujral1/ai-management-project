@@ -16,7 +16,12 @@ function page() {
         return <Skeleton />
     }
     if(!companies || companies.length  === 0){
-       return <h1 className=' text-white'>Nothing to show</h1>
+        return(
+            <>
+        <Link href={"/companies/create-company"}><Button variant="default">Create Company</Button></Link>
+      <h1 className=' '>Nothing to show</h1>
+      </>
+        )
     }
   return (
     <>
