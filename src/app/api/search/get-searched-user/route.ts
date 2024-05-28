@@ -46,7 +46,8 @@ export  async function GET (req : Request){
 
     return Response.json({
         success : true ,
-        message : "Users fetched with this query"
+        message : "Users fetched with this query",
+        users : searchedusers
     })
    
 

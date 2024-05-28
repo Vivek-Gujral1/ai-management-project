@@ -10,7 +10,7 @@ export interface Companies {
   headline: string | null
 }
 
-interface user {
+export interface user {
   createdAt: Date;
   name: string;
   email?: string;
@@ -48,9 +48,10 @@ export interface ApiResponse {
   success: boolean;
   message: string;
   companies?: Array<Companies>;
-  users?: Array<User>;
+  users?: Array<user>;
   user?: user;
   messages?: Array<IMessage>
   company: ICompany
   departments?: Array<Idepartments>
+  
 }

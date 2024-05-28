@@ -12,7 +12,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import ProfileLink from "./ProfileLink";
 import Link from "next/link";
 import { AiOutlineHome } from "react-icons/ai";
@@ -25,6 +24,7 @@ import { MdOutlineNotifications } from "react-icons/md";
 import { ImUsers } from "react-icons/im";
 import { MdOutlineCreateNewFolder } from "react-icons/md";
 import { CiSettings } from "react-icons/ci";
+import SearchInput from "./SearchInput";
 
 interface NavbarItem {
   name: String;
@@ -85,7 +85,7 @@ function Navbar() {
   ];
 
   return (
-   <main className="bg-slate-800">
+    <main className="bg-slate-800">
       <nav className="  h-14 flex flex-row items-center ml-4 justify-between mr-4">
         <div>
           <Sheet>
@@ -129,17 +129,7 @@ function Navbar() {
           </Sheet>
         </div>
 
-        <div className="  lg:w-1/2 w-full">
-          <div className="flex w-full max-w-sm items-center space-x-2">
-            <Input type="search" placeholder="Search Here" />
-            <Button
-              type="button"
-              className=" bg-white text-black hover:bg-white hover:text-black"
-            >
-              Search
-            </Button>
-          </div>
-        </div>
+        <SearchInput />
 
         <div>
           <Sheet>

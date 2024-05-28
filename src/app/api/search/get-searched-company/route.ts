@@ -28,14 +28,18 @@ export  async function GET (req : Request){
            ]
         } ,
         select : {
+            sokcetRoomName: true,
             createdAt: true,
             name: true,
             email: true,
             id: true,
             avatar: true,
-            headline: true,
+            headline : true
         }
     })
+
+   
+    
 
     if (!searchedCompanies) {
         return Response.json({
@@ -46,7 +50,8 @@ export  async function GET (req : Request){
 
     return Response.json({
         success : true ,
-        message : "Companies fetched with this query"
+        message : "Companies fetched with this query",
+        companies : searchedCompanies
     })
    
 
