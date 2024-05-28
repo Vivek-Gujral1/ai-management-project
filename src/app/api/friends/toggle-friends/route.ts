@@ -67,7 +67,7 @@ export async function POST(req: Request) {
     const IsAlreadyFrinnds = check?.includes(friend.id);
 
     if (IsAlreadyFrinnds) {
-      // removes friend from user friends profile
+      // removes friend from user friends profile and friend friends profile
       await prisma.friendsList.update({
         where: {
           userId: user.id,
@@ -76,6 +76,19 @@ export async function POST(req: Request) {
           friends: {
             disconnect: {
               id: friend.id,
+            },
+          },
+        },
+      });
+
+      await prisma.friendsList.update({
+        where: {
+          userId: friend.id,
+        },
+        data: {
+          friends: {
+            disconnect: {
+              id: user.id,
             },
           },
         },
@@ -111,6 +124,32 @@ export async function POST(req: Request) {
         friends: {
           connect: {
             id: friend.id,
+          },
+        },
+      },
+    });
+
+    // update in friend Prfoile
+    await prisma.friendsList.upsert({
+      where: {
+        userId: friend.id,
+      },
+      create: {
+        user: {
+          connect: {
+            id: friend.id,
+          },
+        },
+        friends: {
+          connect: {
+            id: user.id,
+          },
+        },
+      },
+      update: {
+        friends: {
+          connect: {
+            id: user.id,
           },
         },
       },
