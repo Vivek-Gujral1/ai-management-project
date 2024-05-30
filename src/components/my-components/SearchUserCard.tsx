@@ -53,7 +53,7 @@ function SearchUserCard({user} : {user : searchedusers }) {
      }
   }
   return (
-    <Card  className="card-bordered cursor-pointer ">
+    <Card  className="card-bordered  ">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className=' flex flex-row items-center gap-6'>

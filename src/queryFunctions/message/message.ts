@@ -15,3 +15,13 @@ export const getMessages  = async(socketRoomName : string) => {
         console.log(axiosError);
    }
 }
+
+export const getFriends = async () => {
+    const response = await axios.get<ApiResponse>("/api/friends/get-friends")
+    console.log(response);
+    
+
+    if (response.data.success) {
+        return response.data.users
+    }
+}

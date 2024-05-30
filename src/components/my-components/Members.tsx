@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react';
 import { Button } from '../ui/button';
+import { user } from '@/types/ApiResponse';
 
 type User = {
   id: number;
@@ -16,7 +17,7 @@ const usersData: User[] = [
   { id: 5, name: 'Eve', email: 'eve@example.com' },
 ];
 
-const UsersPage = () => {
+const UsersPage = ({users} : {users : Array<user>}) => {
   const [showAll, setShowAll] = useState(false);
 
   const displayedUsers = showAll ? usersData : usersData.slice(0, 3);
@@ -25,7 +26,7 @@ const UsersPage = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">User List</h1>
       <ul className="space-y-2">
-        {displayedUsers.map(user => (
+        {usersData.map(user => (
           <li key={user.id} className="p-4 border rounded-lg shadow-sm">
             <div className="font-semibold">{user.name}</div>
             <div className="text-gray-600">{user.email}</div>

@@ -47,7 +47,8 @@ export async function GET(req: Request) {
 
     return Response.json({
       message: "user Friends Fetched",
-      success : true
+      success : true,
+      users : friends.friends
      
     } , {status : 200});
   } catch (error) {

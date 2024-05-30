@@ -67,6 +67,7 @@ interface IsocketContext {
   joinRoom: (roomName: string) => Promise<boolean>;
   Messages: Array<message>;
   clearMessages: () => void; 
+  createRoomName : (user1 : user , user2 : user) => string
   // sendTask:(roomName:string,Task:ITask)=> Promise<boolean>;
   // Tasks : Array<ITask>
   // notifications : Array<INotification>
@@ -129,6 +130,14 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   //   },[Socket]
   // )
 
+
+  const createRoomName = (user1: user, user2: user) => {
+    // Concatenate the IDs of both users and sort them alphabetically
+    const sortedIds = [user1.id, user2.id].sort();
+    // Concatenate the sorted IDs again
+    return sortedIds.join("_");
+  };
+  
 
    const sendMessage: IsocketContext["sendMessage"] = useCallback(
     async (roomName: string, Message: message) => {
@@ -262,7 +271,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   }, [Socket, joinRoom]);
 
   return (
-    <socketContext.Provider value={{  sendMessage, joinRoom, Messages  , clearMessages }}>
+    <socketContext.Provider value={{  sendMessage, joinRoom, Messages  , clearMessages , createRoomName }}>
       {children}
     </socketContext.Provider>
   );
