@@ -6,7 +6,7 @@ export const searchUsers  = async(query : string) =>{
     try {
         const response = await axios.get<ApiResponse>(`/api/search/get-searched-user?query=${query}`)
         if (response.data.success) {
-            return response.data.users
+            return response.data.searchUsers
         }
     } catch (error) {
         

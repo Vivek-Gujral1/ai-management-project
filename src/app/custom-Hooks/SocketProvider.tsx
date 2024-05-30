@@ -144,7 +144,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         return false;
       }
       const create = await axios.post(
-        `/api/messages/send-message?GroupSocketRoomName=${roomName}`,
+        `/api/message/send-message?GroupSocketRoomName=${roomName}`,
         {
           content: Message.content,
         }

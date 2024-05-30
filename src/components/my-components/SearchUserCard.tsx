@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation'
-import {  ApiResponse, user } from '@/types/ApiResponse'
-import React from 'react'
+import {  ApiResponse, searchedusers, user } from '@/types/ApiResponse'
+import React, { useState } from 'react'
 import { useQueryClient } from "@tanstack/react-query";
 import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import dayjs from 'dayjs';
@@ -20,12 +20,16 @@ import {
 import { Button } from '../ui/button';
 import axios from 'axios';
 import { useToast } from '../ui/use-toast';
-import { title } from 'process';
+import { useSession } from 'next-auth/react';
 
-function SearchUserCard({user} : {user : user }) {
+function SearchUserCard({user} : {user : searchedusers }) {
+  const [friendButtonClicked , setFriendButtonClicked] = useState<boolean>(user.isFriend) 
   const queryClient = useQueryClient();
   const router = useRouter()
   const {toast} = useToast() 
+
+  const session = useSession()
+  const sessionUser =  session.data?.user
 
   const handleClick = async ()=> {
       await queryClient.invalidateQueries({queryKey : ['profile/user']})
@@ -40,6 +44,7 @@ function SearchUserCard({user} : {user : user }) {
       toast({
         title: response.data.message,
       });
+      setFriendButtonClicked(!user.isFriend)
      }else{
     toast({
       title : "Error" ,
@@ -56,14 +61,17 @@ function SearchUserCard({user} : {user : user }) {
             <AvatarFallback >CN</AvatarFallback>
             <AvatarImage src={user.avatar ? user.avatar : ""} ></AvatarImage>
           </Avatar>
-          <CardTitle>{user.name}</CardTitle>
+          <CardTitle>
+          {user.name}
+          
+          </CardTitle>
           </div>
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant='default'>
-                Add a Friend
-              </Button>
+             {user.id === sessionUser?.id ? null :  <Button variant='default'>
+               {user.isFriend ? "Remove From Friends" : "Send Friend Request" }
+              </Button>}
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -84,6 +92,7 @@ function SearchUserCard({user} : {user : user }) {
             </AlertDialogContent>
           </AlertDialog>
         </div>
+        <p>{user.email}</p>
         <p>{user.headline }</p>
         <div className="text-sm flex flex-row justify-between items-center">
         <div> <span className=' text-md'>Since</span> {dayjs(user.createdAt).format('MMM D, YYYY ')}</div>

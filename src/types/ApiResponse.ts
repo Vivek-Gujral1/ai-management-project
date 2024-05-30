@@ -13,10 +13,10 @@ export interface Companies {
 export interface user {
   createdAt: Date;
   name: string;
-  email?: string;
+  email: string | null;
   id: string;
-  avatar?: string;
-  headline?: string;
+  avatar: string | null;
+  headline: string | null;
 }
 
 export interface IMessage {
@@ -43,6 +43,11 @@ export interface Idepartments {
   headline: true
 }
 
+export interface searchedusers extends user {
+  isFriend : boolean
+}
+
+
 
 export interface ApiResponse {
   success: boolean;
@@ -53,5 +58,5 @@ export interface ApiResponse {
   messages?: Array<IMessage>
   company: ICompany
   departments?: Array<Idepartments>
-  
+  searchUsers : Array<searchedusers>
 }
