@@ -77,7 +77,7 @@ function page({params} : {params : params}) {
   console.log(allMessages);
 
   return (
-    <main className=' h-3/4 w-full'>
+    <main className=' h-full w-full'>
    <div className=" h-14 w-full  flex flex-row justify-center items-center gap-3">
     <Avatar>
       <AvatarImage src={friend.avatar ? friend.avatar : ""}></AvatarImage>
@@ -89,7 +89,7 @@ function page({params} : {params : params}) {
       </div>
 
       <div className=" h-2/3 overflow-auto flex flex-col-reverse ">
-        <div className=" mr-5 ml-5 mt-3">
+        <div className=" mr-5 ml-5 ">
           {allMessages?.map((message) => (
             <Message
               key={message.content}
@@ -99,18 +99,18 @@ function page({params} : {params : params}) {
           ))}
         </div>
       </div>
-      <div className="  h-1/6 flex flex-row gap-5 mt-3">
+      <div className="  h-1/6 flex flex-row gap-5 ">
         <form
           className=" h-full w-full flex flex-row gap-5 items-center"
           onSubmit={handleSubmit(sendmessages)}
         >
           <Textarea
-            className="border border-white h-full resize-none pl-2 mt-3"
+            className=" h-3/4 resize-none pl-2 "
             placeholder="Sends a Message"
             {...register("content")}
           />
           <Button className=' '>
-            <IoSend className=" text-3xl text-white" />
+            <IoSend className=" text-3xl" />
           </Button>
         </form>
       </div>

@@ -14,6 +14,8 @@ import Chat from '@/components/my-components/Chat'
 import { IoSend } from "react-icons/io5";
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Textarea } from '@/components/ui/textarea'
 
 interface FormType {
   content : string
@@ -70,14 +72,18 @@ function page() {
   console.log(allMessages);
 
   return (
-    <main className=' h-full w-full'>
-   <div className=" h-14 w-full border border-white flex flex-row justify-center items-center">
-        <h1 className=" text-3xl text-white ">
+    <main className=' h-3/4 w-full'>
+   <div className=" h-14 w-full  flex flex-row justify-center items-center gap-3">
+   <Avatar>
+      <AvatarImage src={company.avatar ? company.avatar : ""}></AvatarImage>
+      <AvatarFallback>CN</AvatarFallback>
+    </Avatar>
+        <h1 className=" text-3xl font-semibold ">
               {company.name}
         </h1>
       </div>
 
-      <div className=" h-2/3 border border-white overflow-auto flex flex-col-reverse ">
+      <div className=" h-2/3  overflow-auto flex flex-col-reverse ">
         <div className=" mr-5 ml-5 mt-3">
           {allMessages?.map((message) => (
             <Message
@@ -88,18 +94,18 @@ function page() {
           ))}
         </div>
       </div>
-      <div className="  h-1/6 flex flex-row gap-5">
+      <div className="   h-1/6 flex flex-row gap-5 mt-3">
         <form
-          className=" h-full w-full flex flex-row gap-5"
+          className="h-full w-full flex flex-row gap-5 items-center"
           onSubmit={handleSubmit(sendmessages)}
         >
-          <Input
-            className="border border-white h-full w-4/5 resize-none pl-2"
+          <Textarea
+            className=" h-full w-4/5 resize-none pl-2"
             placeholder="Sends a Message"
             {...register("content")}
           />
           <Button>
-            <IoSend className=" text-3xl text-white" />
+            <IoSend className=" text-3xl" />
           </Button>
         </form>
       </div>

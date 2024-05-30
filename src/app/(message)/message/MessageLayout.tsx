@@ -10,7 +10,7 @@ function MessageLayout() {
     await queryClient.invalidateQueries({queryKey : ["message/friends"]})
   }
   return (
-    <div className=" flex flex-row justify-center items-center gap-8">
+    <div className=" flex flex-row justify-center items-center gap-8 ">
       
 
        <Link href={"/message/friends"}><Button onClick={async () => await InvalidateFriends() }>Friends</Button></Link>
