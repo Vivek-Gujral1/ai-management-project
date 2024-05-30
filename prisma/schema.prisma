@@ -25,29 +25,31 @@ enum userRole {
 }
 
 model User {
-  id                  String        @id @default(auto()) @map("_id") @db.ObjectId
-  name                String        @unique
-  email               String        @unique
+  id                  String           @id @default(auto()) @map("_id") @db.ObjectId
+  name                String           @unique
+  email               String           @unique
   password            String
-  isVerified          Boolean       @default(false)
+  isVerified          Boolean          @default(false)
   headline            String?
   avatar              String?
   verifyCode          String
   verifyCodeExpiry    DateTime
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
-  createdCompanyUsers Company[]     @relation("companyCreater") // relation of user who cretaes company
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  createdCompanyUsers Company[]        @relation("companyCreater") // relation of user who cretaes company
   userRoles           Role[]
-  companyMembersId    String[]      @db.ObjectId
-  comapnyMembers      Company[]     @relation(fields: [companyMembersId], references: [id])
-  departmentMembersId String[]      @db.ObjectId
-  departMemebers      Department[]  @relation(fields: [departmentMembersId], references: [id])
-  TaskSender          Task[]        @relation("TaskSender")
-  TaskReciver         Task[]        @relation("TaskReciver")
-  friendId            String[]      @db.ObjectId
-  friends             FriendsList[] @relation("friends", fields: [friendId], references: [id])
+  companyMembersId    String[]         @db.ObjectId
+  comapnyMembers      Company[]        @relation(fields: [companyMembersId], references: [id])
+  departmentMembersId String[]         @db.ObjectId
+  departMemebers      Department[]     @relation(fields: [departmentMembersId], references: [id])
+  TaskSender          Task[]           @relation("TaskSender")
+  TaskReciver         Task[]           @relation("TaskReciver")
+  friendId            String[]         @db.ObjectId
+  friends             FriendsList[]    @relation("friends", fields: [friendId], references: [id])
   FriendsListUser     FriendsList?
   sendMessages        Message[]
+  RequestSenders      FriendRequests[] @relation("RequestSender")
+  FriendRequestUser   FriendRequests?
 
   @@map("users")
 }
@@ -143,4 +145,16 @@ model FriendsList {
   updatedAt DateTime @updatedAt
 
   @@map("friends")
+}
+
+model FriendRequests {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  RequestSendersID String   @db.ObjectId
+  RequestSenders   User     @relation("RequestSender", fields: [RequestSendersID], references: [id])
+  userId           String   @unique @db.ObjectId
+  user             User     @relation(fields: [userId], references: [id])
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("friendRequests")
 }
