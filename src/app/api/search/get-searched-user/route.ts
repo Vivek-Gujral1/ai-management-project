@@ -85,10 +85,15 @@ export async function GET(req: Request) {
         });
       }
 
+       const convertedUsers = searchedusers.map((user) => ({
+        ...user,
+        isFriend: false,
+      }));
+
       return Response.json({
         success: true,
         message: "Users fetched with this query",
-        users: searchedusers,
+        searchUsers: convertedUsers,
       });
     }
 
@@ -158,7 +163,7 @@ export async function GET(req: Request) {
       //    when friends is not that means isFriend is fasle
       const convertedUsers = searchedusers.map((user) => ({
         ...user,
-        IsFriend: false,
+        isFriend: false,
       }));
 
       return Response.json({

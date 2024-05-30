@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import {  ApiResponse, searchedusers, user } from '@/types/ApiResponse'
 import React, { useState } from 'react'
 import { useQueryClient } from "@tanstack/react-query";
-import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import dayjs from 'dayjs';
 import {Avatar , AvatarFallback , AvatarImage} from "@/components/ui/avatar"
 import {
@@ -74,7 +74,8 @@ function SearchUserCard({user} : {user : searchedusers }) {
               </Button>}
             </AlertDialogTrigger>
             <AlertDialogContent>
-              <AlertDialogHeader>
+              {sessionUser ? <>
+                <AlertDialogHeader>
                 <AlertDialogTitle>Send Friend Request To {user.name}</AlertDialogTitle>
                 <AlertDialogDescription>
                   This action cannot be undone. This will permanently delete
@@ -89,6 +90,25 @@ function SearchUserCard({user} : {user : searchedusers }) {
                   Continue
                 </AlertDialogAction>
               </AlertDialogFooter>
+              </>: 
+              <>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Please Login To send Friend Request</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action will only be done with registered and login user.
+                  
+                </AlertDialogDescription>
+              </AlertDialogHeader> 
+              <AlertDialogFooter>
+                <AlertDialogCancel>
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction onClick={() => router.push("/login")} >
+                  SignIn
+                </AlertDialogAction>
+              </AlertDialogFooter>
+              </>
+              }
             </AlertDialogContent>
           </AlertDialog>
         </div>
