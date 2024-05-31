@@ -198,5 +198,15 @@ export async function GET(req: Request) {
       message: "Users fetched with this query",
       searchUsers: convertedUsers,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    
+    return Response.json(
+      {
+        success: false,
+        message: "Error while  searching user",
+      },
+      { status: 500 }
+    );
+  }
 }

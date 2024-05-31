@@ -84,7 +84,17 @@ export async function POST (req : Request) {
                 }
             }
          })
-        
+
+         // makes friendRequest 
+         await prisma.friendRequests.create({
+            data : {
+              user : {
+                connect : {
+                    id : newUser.id
+                }
+              }
+            }
+         })        
         
         }
 

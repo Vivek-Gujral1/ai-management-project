@@ -48,7 +48,8 @@ model User {
   friends             FriendsList[]    @relation("friends", fields: [friendId], references: [id])
   FriendsListUser     FriendsList?
   sendMessages        Message[]
-  RequestSenders      FriendRequests[] @relation("RequestSender")
+  RequestSendersID    String[] @db.ObjectId
+  RequestSenders      FriendRequests[] @relation("RequestSender" , fields: [RequestSendersID] , references: [id])
   FriendRequestUser   FriendRequests?
 
   @@map("users")
@@ -149,8 +150,8 @@ model FriendsList {
 
 model FriendRequests {
   id               String   @id @default(auto()) @map("_id") @db.ObjectId
-  RequestSendersID String   @db.ObjectId
-  RequestSenders   User     @relation("RequestSender", fields: [RequestSendersID], references: [id])
+  RequestSendersID String[]   @db.ObjectId
+  RequestSenders   User[]   @relation("RequestSender", fields: [RequestSendersID], references: [id])
   userId           String   @unique @db.ObjectId
   user             User     @relation(fields: [userId], references: [id])
   createdAt        DateTime @default(now())

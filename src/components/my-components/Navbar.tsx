@@ -73,8 +73,8 @@ function Navbar() {
       icon: <MdOutlineNotifications />,
     },
     {
-      name: "Create Post",
-      path: "/create",
+      name: "Friend Requests",
+      path: "/friend-requests",
       icon: <MdOutlineCreateNewFolder />,
     },
     {

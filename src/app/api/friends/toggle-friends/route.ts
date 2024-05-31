@@ -117,46 +117,35 @@ export async function GET(req: Request) {
     }
 
 
-    // makes friends
+    // // makes friends
    
-    await prisma.friendsList.update({
-      where: {
-        id : userFrindsProfile.id
-      },
-       data : {
-        friends: {
-          connect: {
-            id: friend.id,
-          },
-        },
-      },
-     
-    });
-
-    // update in friend Prfoile
     
-    await prisma.friendsList.update({
-      where: {
-        id : friendFriendsProfile.id
-      },
-       data : {
-        friends: {
-          connect: {
-            id: user.id,
-          },
-        },
-      },
-     
-    });
+
+    // send Friend Reuest
+
+    await prisma.friendRequests.update({
+      where : {
+        userId : friend.id
+      } ,
+      data : {
+        RequestSenders : {
+          connect : {
+            id : user.id
+          }
+        }
+      }
+    })
 
     return Response.json(
       {
-        message: `${friend.name} Added to Your Friend List`,
-        success: true,
-      },
-      { status: 200 }
-    );
+        success : true ,
+        message : "Friend Request Send"
+      } ,
+      {status : 200}
+    )
   } catch (error) {
+    console.log(error);
+    
     return Response.json(
       {
         success: false,

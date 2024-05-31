@@ -12,7 +12,7 @@ import { DialogDemo } from "./EditProfile";
 
 function Profile({userId}: {userId : string}) {
   const {data : session} = useSession()
-  const user = session?.user
+  const Sessionuser = session?.user
     const {data : userProfileData , isLoading} = useQuery({
         queryKey : ["profile/user"],
         queryFn : async() => await getUserProfile(userId)
@@ -39,7 +39,7 @@ function Profile({userId}: {userId : string}) {
         </div>
         <div className="  lg:w-1/3 flex flex-col justify-center lg:flex-row  lg:items-center lg:gap-4">
           <Link className="flex flex-row items-center gap-2 h-8  pl-2 justify-center" href={"/"}><IoChatboxEllipsesOutline />Send Message</Link>
-          <DialogDemo />
+          {Sessionuser?.id === userId ? <DialogDemo /> : null}
         </div>
       </section>
       
