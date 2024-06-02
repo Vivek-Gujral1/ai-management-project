@@ -63,19 +63,20 @@ function Navbar() {
 
   const profileItems: Array<NavbarItem> = [
     {
-      name: " Switch-Account",
-      path: "/Switch",
+      name: "Friends",
+      path: "/friends",
       icon: <ImUsers />,
+    },
+   
+    {
+      name: "Friend Requests",
+      path: "/friend-requests",
+      icon: <MdOutlineCreateNewFolder />,
     },
     {
       name: "Notifications",
       path: "/notifications",
       icon: <MdOutlineNotifications />,
-    },
-    {
-      name: "Friend Requests",
-      path: "/friend-requests",
-      icon: <MdOutlineCreateNewFolder />,
     },
     {
       name: "Settings",

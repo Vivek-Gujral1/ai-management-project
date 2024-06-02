@@ -39,13 +39,14 @@ function Profile({CompanyId}: {CompanyId : string}) {
           {CompanyProfileData?.headline ? CompanyProfileData.headline : ""}  
           </p>
         </div>
-        <div className="  lg:w-1/3 flex flex-col justify-center lg:flex-row  lg:items-center lg:gap-4">
+        <div className="  lg:w-1/2 flex flex-col justify-center lg:flex-row  lg:items-center lg:gap-4">
           <Link className="flex flex-row items-center gap-2 h-8  pl-2 justify-center" href={"/"}><IoChatboxEllipsesOutline />Send Message</Link>
           <DialogDemo CompanyId={CompanyId}/>
+          <Link className="flex flex-row items-center gap-2 h-8  pl-2 justify-center" href={`/companies/${CompanyProfileData?.id}/add-member`}><IoChatboxEllipsesOutline />ADD Member</Link>
         </div>
       </section>
    
-      <Separator className=" mt-10 lg:mt-20"/>
+      <Separator className=" mt-24 lg:mt-20"/>
       <br />
      <section>
      <div className=" flex flex-row justify-center items-center">
