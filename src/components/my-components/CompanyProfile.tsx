@@ -10,6 +10,7 @@ import UserCompanies from "./UserCompanies";
 import { useSession } from "next-auth/react";
 import { DialogDemo } from "./EditCompanyProfile";
 import UsersPage from "./Members";
+import CompanyMembers from "./CompanyMembers";
 
 function Profile({CompanyId}: {CompanyId : string}) {
   const {data : session} = useSession()
@@ -22,6 +23,8 @@ function Profile({CompanyId}: {CompanyId : string}) {
     if (isLoading) {
        return <Skeleton />
     }
+
+
   return (
     <main className=" h-full w-full mt-4">
       <section className=" h-1/4 w-full  p-4 flex flex-col gap-6">
@@ -52,7 +55,7 @@ function Profile({CompanyId}: {CompanyId : string}) {
      <div className=" flex flex-row justify-center items-center">
       <h2 className=" text-xl font-medium">Company Members</h2>
      </div>
-
+      <CompanyMembers companyId={CompanyId} />
      </section>
     </main>
   );

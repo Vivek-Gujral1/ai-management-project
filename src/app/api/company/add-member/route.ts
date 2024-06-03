@@ -5,22 +5,22 @@ import { authOptions } from "../../auth/[...nextauth]/options";
 
 
 export async function POST(req : Request) {
-    const session  = await getServerSession(authOptions)
-    const user = session?.user
-    console.log(session);
+    // const session  = await getServerSession(authOptions)
+    // const user = session?.user
+    // console.log(session);
     
  
-    if(!session || session.user) {
-     return Response.json(
-         {
-           success: false,
-           message: "Not Authenticated"
-         },
-         { status: 401 }
-       );
-    }
+    // if(!session || session.user) {
+    //  return Response.json(
+    //      {
+    //        success: false,
+    //        message: "Not Authenticated"
+    //      },
+    //      { status: 401 }
+    //    );
+    // }
  
-    const SessionUserID = user?.id
+    // const SessionUserID = user?.id
     
     try {
 
@@ -63,7 +63,7 @@ export async function POST(req : Request) {
      
 
     
-     const updateCompanyMembers = await prisma.company.update({
+      await prisma.company.update({
       where :{
         id : company.id
       } ,

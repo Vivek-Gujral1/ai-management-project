@@ -10,3 +10,12 @@ export const getCompanies = async () => {
         return response.data.companies
     }
 }
+
+export const getCompanyMembers = async (companyId : string) => {
+    const response = await axios.get<ApiResponse>(`/api/company/get-company-members?companyId=${companyId}`)
+    console.log(response);
+    
+    if (response.data.success) {
+        return response.data.users
+    }
+}
