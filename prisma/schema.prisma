@@ -7,22 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum userRole {
-  ChiefExecutiveOfficer
-  ChiefFinancialOfficer
-  ChiefInformationOfficer
-  ChiefMarketingOfficer
-  ChiefOperationsOfficer
-  HumanResourcesManager
-  InformationTechnologyManager
-  MarketingManager
-  ProductManager
-  SalesManager
-  Founder
-  Owner
-  Member
-  Manager
-}
+// enum userRole {
+//   ChiefExecutiveOfficer
+//   ChiefFinancialOfficer
+//   ChiefInformationOfficer
+//   ChiefMarketingOfficer
+//   ChiefOperationsOfficer
+//   HumanResourcesManager
+//   InformationTechnologyManager
+//   MarketingManager
+//   ProductManager
+//   SalesManager
+//   Founder
+//   Owner
+//   Member
+//   Manager
+// }
 
 model User {
   id                    String                 @id @default(auto()) @map("_id") @db.ObjectId
@@ -37,7 +37,7 @@ model User {
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
   createdCompanyUsers   Company[]              @relation("companyCreater") // relation of user who cretaes company
-  userRoles             Role[]
+  
   companyMembersId      String[]               @db.ObjectId
   comapnyMembers        Company[]              @relation(fields: [companyMembersId], references: [id])
   departmentMembersId   String[]               @db.ObjectId
@@ -51,23 +51,12 @@ model User {
   RequestSendersID      String[]               @db.ObjectId
   RequestSenders        FriendRequests[]       @relation("RequestSender", fields: [RequestSendersID], references: [id])
   FriendRequestUser     FriendRequests?
-  CompanyMembersRequest CompanyMembersRequest?
+  CompanyMembersRequestUser CompanyMembersRequest?
 
   @@map("users")
 }
 
-model Role {
-  id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  companyId    String?     @db.ObjectId // companyID
-  company      Company?    @relation(fields: [companyId], references: [id])
-  departmentId String?     @db.ObjectId
-  department   Department? @relation(fields: [departmentId], references: [id])
-  userId       String      @db.ObjectId // user who gets a role
-  user         User        @relation(fields: [userId], references: [id])
-  Role         userRole
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-}
+
 
 model Company {
   id                String                  @id @default(auto()) @map("_id") @db.ObjectId
@@ -85,7 +74,7 @@ model Company {
   updatedAt         DateTime                @updatedAt
   MembersID         String[]                @db.ObjectId
   Members           User[]                  @relation(fields: [MembersID], references: [id])
-  companyRoles      Role[]
+ 
   departments       Department[]
   CompanyRequestsID String[]                @db.ObjectId
   CompanyRequests   CompanyMembersRequest[] @relation("CompanyRequest", fields: [CompanyRequestsID], references: [id])
@@ -100,7 +89,7 @@ model Department {
   sokcetRoomName  String
   comapnyId       String   @db.ObjectId
   comapny         Company  @relation(fields: [comapnyId], references: [id])
-  departmentRoles Role[]
+ 
   MembersID       String[] @db.ObjectId
   Members         User[]   @relation(fields: [MembersID], references: [id])
   Tasks           Task[]

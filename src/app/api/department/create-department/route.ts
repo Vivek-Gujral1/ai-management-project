@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
 import prisma from "@/constants/prisma";
 import { SendCompanyVerificationEmail } from "@/utils/SendCompanyVerificationEmail";
-import { GaveRoleToUser } from "@/utils/role/GaveRoleToUser";
+
 
 export async function POST(req: Request) {
   // const session = await getServerSession(authOptions);
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
    
    
 
-    const newDepartment = await prisma.department.create({
+    await prisma.department.create({
         data : {
             name ,
             sokcetRoomName ,
@@ -86,14 +86,9 @@ export async function POST(req: Request) {
         }
     })
 
-    const gaveRole = await GaveRoleToUser({Role :"Manager" , userId : "664df0aa788b92a19149af7d", depatmentId : newDepartment.id})
+   
 
-    if (!gaveRole.success) {
-        return Response.json({
-            success : false,
-            message : gaveRole.message
-        } , {status : 500})
-    }
+    
     return Response.json({
         success : true,
         message : "Department Cretated Successfully"

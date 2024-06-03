@@ -1,8 +1,8 @@
 import prisma from "@/constants/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
-import { userRole } from "@prisma/client";
-import { GaveRoleToUser } from "@/utils/role/GaveRoleToUser";
+
+
 
 export async function POST(req : Request) {
     const session  = await getServerSession(authOptions)
@@ -24,7 +24,6 @@ export async function POST(req : Request) {
     
     try {
 
-      const {Role} : {Role : userRole} = await req.json()
       const { searchParams } = new URL(req.url);
       const queryParam = {
       companyID: searchParams.get("companyId"),
@@ -61,17 +60,9 @@ export async function POST(req : Request) {
         } , {status : 401})
      }
 
-     const gaveRole = await GaveRoleToUser({userId : user.id , companyId : company.id , Role})
+     
 
-     if (!gaveRole.success) {
-        return Response.json(
-            {
-              success: false,
-              message: gaveRole.message,
-            },
-            { status: 500 }
-          ); 
-     }
+    
      const updateCompanyMembers = await prisma.company.update({
       where :{
         id : company.id

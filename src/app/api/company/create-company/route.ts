@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/options";
 import prisma from "@/constants/prisma";
 import { SendCompanyVerificationEmail } from "@/utils/SendCompanyVerificationEmail";
-import { GaveRoleToUser } from "@/utils/role/GaveRoleToUser";
+
 import { Company } from "@prisma/client";
 
 export async function POST(req: Request) {
@@ -130,25 +130,9 @@ export async function POST(req: Request) {
             verifyCodeExpiry: expiryDate,
           },
         });
+      
 
         
-        // gaving role to user
-        const RoleResponse = await GaveRoleToUser({
-          userId: user.id,
-          Role: "Founder",
-          companyId: newCompany.id,
-        });
-
-        if (!RoleResponse.success) {
-          return Response.json(
-            {
-              success: false,
-              message: RoleResponse.message,
-            },
-            { status: 500 }
-          );
-        }
-
         // send verification email
         const emailResponse = await SendCompanyVerificationEmail(
           email,
@@ -175,39 +159,27 @@ export async function POST(req: Request) {
         );
       }
     } else {
-      const userId = "664df0aa788b92a19149af7d"
-      const newCompany = await prisma.company.create({
+     
+       await prisma.company.create({
         data: {
           name,
           sokcetRoomName,
           createdUser: {
             connect: {
-              id: userId,
+              id: session.user.id,
             },
           },
           Members: {
             connect: {
-              id: userId,
+              id: session.user.id,
             },
           },
         },
       });
 
-      const RoleResponse = await GaveRoleToUser({
-        userId: userId,
-        Role: "Founder",
-        companyId: newCompany.id,
-      });
+     
 
-      if (!RoleResponse.success) {
-        return Response.json(
-          {
-            success: false,
-            message: RoleResponse.message,
-          },
-          { status: 500 }
-        );
-      }
+    
       return Response.json(
         {
           success: true,
