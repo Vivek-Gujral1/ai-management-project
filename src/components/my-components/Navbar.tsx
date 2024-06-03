@@ -39,11 +39,7 @@ function Navbar() {
       path: "/",
       icon: <AiOutlineHome />,
     },
-    {
-      name: "Departments",
-      path: "/departments",
-      icon: <AiOutlineHome />,
-    },
+    
     {
       name: "Discussions",
       path: "/message/company",

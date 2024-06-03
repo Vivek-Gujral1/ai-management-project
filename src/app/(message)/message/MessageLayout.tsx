@@ -15,7 +15,7 @@ function MessageLayout() {
 
        <Link href={"/message/friends"}><Button onClick={async () => await InvalidateFriends() }>Friends</Button></Link>
        <Link href={"/message/company"}><Button>Companies</Button></Link>
-       <Link href={"/message/departments"}><Button>Departments</Button></Link>
+       
       </div>
   )
 }

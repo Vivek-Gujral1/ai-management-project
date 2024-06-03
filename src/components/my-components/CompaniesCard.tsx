@@ -25,7 +25,7 @@ function CompaniesCard({Company} : {Company : Companies}) {
     if (res) {
      
       await queryClient.invalidateQueries({queryKey : ['company']})
-   
+       await queryClient.invalidateQueries({queryKey : ["company/members"]})
       router.push(`/companies/${Company.id}`)
     }
   }

@@ -1,4 +1,4 @@
-import { Company, User } from "@prisma/client";
+
 
 export interface Companies {
   sokcetRoomName: string;
@@ -34,15 +34,6 @@ export interface ICompany {
   headline: string | null
 }
 
-export interface Idepartments {
-  sokcetRoomName: string,
-  createdAt: Date,
-  name: string,
-  comapny: Companies,
-  id: true,
-  headline: true
-}
-
 export interface searchedusers extends user {
   isFriend : boolean
 }
@@ -57,6 +48,5 @@ export interface ApiResponse {
   user?: user;
   messages?: Array<IMessage>
   company: ICompany
-  departments?: Array<Idepartments>
   searchUsers : Array<searchedusers>
 }
