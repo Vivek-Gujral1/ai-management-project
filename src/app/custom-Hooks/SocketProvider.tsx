@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { IMessage } from "@/types/ApiResponse";
 import { ITask , user } from "@/types/ApiResponse";
+import { getSession, useSession } from "next-auth/react";
 
 interface SocketProviderProps {
   children?: React.ReactNode;
@@ -41,8 +42,9 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [Socket, setSocket] = useState<Socket>();
   const [Messages, setMessages] = useState<IMessage[]>([]);
   const [Tasks, setTasks] = useState<ITask[]>([]);
+ 
 
-  const userData = useSelector((state: RootState) => state.user.userData);
+  
 
   const joinRoom = useCallback(
     async (roomName: string) => {
@@ -166,8 +168,16 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   useEffect(() => {
     const joinRoomIfSocketInitialized = async () => {
       if (Socket) {
+        const session  = await getSession()
+        const userData = session?.user
         if (userData) {
-          await joinRoom(`${userData.id}_${userData.name}`);
+         const res =  await joinRoom(`${userData.id}_${userData.name}`);
+         console.log("apna room" , res);
+         
+        }
+        else {
+          console.log("chala");
+          
         }
       }
     };

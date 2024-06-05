@@ -8,18 +8,18 @@ interface TaskDetails {
 }
 
 export async function POST(req: Request) {
-  // const session = await getServerSession(authOptions);
-  // if (!session || !session.user) {
-  //   return Response.json(
-  //     {
-  //       success: false,
-  //       message: "Not Authenticated",
-  //     },
-  //     { status: 401 }
-  //   );
-  // }
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user) {
+    return Response.json(
+      {
+        success: false,
+        message: "Not Authenticated",
+      },
+      { status: 401 }
+    );
+  }
 
-  // const SessionUser = session.user;
+  const SessionUser = session.user;
 
   try {
     const { content, title }: TaskDetails = await req.json();
@@ -72,7 +72,9 @@ export async function POST(req: Request) {
             title : title ,
             content : content ,
             sender : {
-                connect : {id  : "6659959736bc12935554772c"}
+                connect : {
+                  id  : SessionUser.id 
+                }
             },
             reciver : {
                 connect  : {

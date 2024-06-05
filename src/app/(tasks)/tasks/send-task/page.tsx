@@ -2,6 +2,7 @@
 import { AppDispatch, RootState } from '@/store/store';
 import { newTask } from '@/store/task/TaskSlice';
 import { ITask } from '@/types/ApiResponse';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import {useForm} from "react-hook-form"
@@ -23,8 +24,13 @@ function SendTask() {
 
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
-  const userData = useSelector((state: RootState) => state.user.userData);
+  const {data : session} = useSession()
+  const userData = session?.user
   const Company = useSelector((state: RootState) => state.company.company);
+
+  
+  console.log("Company" , Company);
+  
   if (!userData || !Company) {
     return <div>Please Login</div>
   }
@@ -55,7 +61,7 @@ function SendTask() {
     } 
     dispatch(newTask(task))
     reset()
-    router.push("/task/send-task/select-member")
+    router.push("/tasks/send-task/select-member")
   }
 
   return (
