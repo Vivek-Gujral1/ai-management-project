@@ -6,7 +6,7 @@ export default function Layout({
   }) {
     return <section className=" h-full w-full">
        <MessageLayout />
-      <div className=" h-full w-full mt-5">
+      <div className=" h-5/6 lg:h-3/4 w-full ">
       {children}
       </div>
         </section>

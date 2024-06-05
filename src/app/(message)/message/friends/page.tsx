@@ -1,6 +1,6 @@
 "use client"
 import Friend from '@/components/my-components/Friend'
-import UsersPage from '@/components/my-components/Members'
+
 import { Skeleton } from '@/components/ui/skeleton'
 import { getFriends } from '@/queryFunctions/message/message'
 import { useQuery } from '@tanstack/react-query'

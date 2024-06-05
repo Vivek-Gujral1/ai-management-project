@@ -10,7 +10,7 @@ import { message, useSocket } from '@/app/custom-Hooks/SocketProvider'
 import { useSession } from 'next-auth/react'
 import Message from '@/components/my-components/Message'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import Chat from '@/components/my-components/Chat'
+
 import { IoSend } from "react-icons/io5";
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -77,7 +77,7 @@ function page({params} : {params : params}) {
   console.log(allMessages);
 
   return (
-    <main className=' h-full w-full'>
+    <main className=' h-full w-full mt-5 flex flex-col gap-8'>
    <div className=" h-14 w-full  flex flex-row justify-center items-center gap-3">
     <Avatar>
       <AvatarImage src={friend.avatar ? friend.avatar : ""}></AvatarImage>
@@ -88,7 +88,7 @@ function page({params} : {params : params}) {
         </h1>
       </div>
 
-      <div className=" h-2/3 overflow-auto flex flex-col-reverse ">
+      <div className=" h-5/6 overflow-auto flex flex-col-reverse ">
         <div className=" mr-5 ml-5 ">
           {allMessages?.map((message) => (
             <Message

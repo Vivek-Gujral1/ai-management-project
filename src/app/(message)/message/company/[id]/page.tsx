@@ -72,7 +72,7 @@ function page() {
   console.log(allMessages);
 
   return (
-    <main className=' h-3/4 w-full'>
+    <main className=' h-full w-full mt-5 flex flex-col gap-8'>
    <div className=" h-14 w-full  flex flex-row justify-center items-center gap-3">
    <Avatar>
       <AvatarImage src={company.avatar ? company.avatar : ""}></AvatarImage>
@@ -83,7 +83,7 @@ function page() {
         </h1>
       </div>
 
-      <div className=" h-2/3  overflow-auto flex flex-col-reverse ">
+      <div className="h-5/6 overflow-auto flex flex-col-reverse ">
         <div className=" mr-5 ml-5 mt-3">
           {allMessages?.map((message) => (
             <Message
@@ -94,7 +94,7 @@ function page() {
           ))}
         </div>
       </div>
-      <div className="   h-1/6 flex flex-row gap-5 mt-3">
+      <div className="   h-1/6 flex flex-row gap-5 ">
         <form
           className="h-full w-full flex flex-row gap-5 items-center"
           onSubmit={handleSubmit(sendmessages)}
