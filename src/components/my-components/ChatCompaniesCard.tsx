@@ -27,7 +27,8 @@ function CompaniesCard({Company} : {Company : Companies}) {
     const res = await RoomJoin()
     if (res) {
       dispatch(inCompany(Company))
-      await queryClient.invalidateQueries({queryKey : ['company/messages']})
+      await queryClient.invalidateQueries({queryKey : ['message/company']})
+      
       clearMessages()
       router.push(`/message/company/${Company.id}`)
     }

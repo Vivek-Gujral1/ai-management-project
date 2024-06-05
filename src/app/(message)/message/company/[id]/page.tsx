@@ -10,7 +10,7 @@ import { message, useSocket } from '@/app/custom-Hooks/SocketProvider'
 import { useSession } from 'next-auth/react'
 import Message from '@/components/my-components/Message'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import Chat from '@/components/my-components/Chat'
+
 import { IoSend } from "react-icons/io5";
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'

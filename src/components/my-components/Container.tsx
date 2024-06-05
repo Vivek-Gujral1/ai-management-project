@@ -4,7 +4,7 @@ export default function Container({
   }: {
     children: React.ReactNode
   }) {
-    return <section className="h-screen w-screen bg-white ">
+    return <section className="h-screen w-screen bg-[#ffffff] ">
       <nav>
       <Navbar />
       </nav>

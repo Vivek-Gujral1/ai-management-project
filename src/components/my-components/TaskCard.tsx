@@ -5,7 +5,7 @@ import axios, { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import { X } from 'lucide-react';
 import { Task } from '@prisma/client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle , CardDescription  , CardFooter} from '@/components/ui/card';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,42 +19,42 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '../ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { ApiResponse } from '@/types/ApiResponse';
+import { ApiResponse, ITask } from '@/types/ApiResponse';
 
 type MessageCardProps = {
-  message: Task;
-  onMessageDelete: (messageId: string) => void;
+  task: ITask;
+ 
 };
 
-export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
+export function TaskCard({ task}: MessageCardProps) {
   const { toast } = useToast();
 
-  const handleDeleteConfirm = async () => {
-    try {
-      const response = await axios.delete<ApiResponse>(
-        `/api/delete-message/${message.id}`
-      );
-      toast({
-        title: response.data.message,
-      });
-      onMessageDelete(message.id);
+  // const handleDeleteConfirm = async () => {
+  //   try {
+  //     const response = await axios.delete<ApiResponse>(
+  //       `/api/delete-message/${message.id}`
+  //     );
+  //     toast({
+  //       title: response.data.message,
+  //     });
+  //     onMessageDelete(message.id);
 
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiResponse>;
-      toast({
-        title: 'Error',
-        description:
-          axiosError.response?.data.message ?? 'Failed to delete message',
-        variant: 'destructive',
-      });
-    } 
-  };
+  //   } catch (error) {
+  //     const axiosError = error as AxiosError<ApiResponse>;
+  //     toast({
+  //       title: 'Error',
+  //       description:
+  //         axiosError.response?.data.message ?? 'Failed to delete message',
+  //       variant: 'destructive',
+  //     });
+  //   } 
+  // };
 
   return (
-    <Card className="card-bordered">
+    <Card className="card-bordered w-full " >
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>{message.title}</CardTitle>
+          <CardTitle>{task.title}</CardTitle>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant='destructive'>
@@ -73,18 +73,34 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                 <AlertDialogCancel>
                   Cancel
                 </AlertDialogCancel>
-                <AlertDialogAction onClick={handleDeleteConfirm}>
+                <AlertDialogAction >
                   Continue
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
         </div>
+
         <div className="text-sm">
-          {dayjs(message.createdAt).format('MMM D, YYYY h:mm A')}
+          {/* {dayjs(task.createdAt).format('MMM D, YYYY h:mm A')} */}
+         Company Name :  <span className=' font-medium'>{task.Company.name}</span>
         </div>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent>
+        <p className=' text-slate-700'>
+          {task.content}
+        </p>
+      </CardContent>
+      <CardFooter >
+      <div className="text-sm flex  flex-row w-full justify-between items-center">
+       <div className=' flex flex-col gap-2'>
+       <p>Task Sender: <span className=' font-semibold'>{task.sender.name}</span></p>
+        <p> Task Reciever: {task.sender.name}</p>
+       </div>
+          <p>{dayjs(task.createdAt).format('MMM D, YYYY h:mm A')}</p>
+         
+        </div>
+      </CardFooter>
     </Card>
   );
 }

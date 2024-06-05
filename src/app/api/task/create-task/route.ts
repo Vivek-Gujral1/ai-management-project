@@ -8,18 +8,18 @@ interface TaskDetails {
 }
 
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user) {
-    return Response.json(
-      {
-        success: false,
-        message: "Not Authenticated",
-      },
-      { status: 401 }
-    );
-  }
+  // const session = await getServerSession(authOptions);
+  // if (!session || !session.user) {
+  //   return Response.json(
+  //     {
+  //       success: false,
+  //       message: "Not Authenticated",
+  //     },
+  //     { status: 401 }
+  //   );
+  // }
 
-  const SessionUser = session.user;
+  // const SessionUser = session.user;
 
   try {
     const { content, title }: TaskDetails = await req.json();
@@ -28,10 +28,10 @@ export async function POST(req: Request) {
     }
     const { searchParams } = new URL(req.url);
     const queryParam = {
-      departmentId: searchParams.get("departmentId"),
+      CompanyId : searchParams.get("CompanyId"),
       recieverId: searchParams.get("recieverId"),
     };
-    if (!queryParam.departmentId || !queryParam.recieverId) {
+    if (!queryParam.CompanyId || !queryParam.recieverId) {
       throw new Error("Invalid Query Parameter");
     }
 
@@ -51,17 +51,17 @@ export async function POST(req: Request) {
           );
     }
 
-    const department = await prisma.department.findFirst({
+    const Company = await prisma.company.findFirst({
         where : {
-            id : queryParam.departmentId
+            id : queryParam.CompanyId
         }
     })
 
-    if (!department) {
+    if (!Company) {
         return Response.json(
             {
               success: false,
-              message: " Department not found",
+              message: " Company not found",
             },
             { status: 401 }
           );
@@ -72,18 +72,18 @@ export async function POST(req: Request) {
             title : title ,
             content : content ,
             sender : {
-                connect : {id  : SessionUser.id}
+                connect : {id  : "6659959736bc12935554772c"}
             },
             reciver : {
                 connect  : {
                     id : reciver.id
                 }
             } ,
-           department : {
+          Company : {
             connect : {
-                id : department.id
+              id : Company.id
             }
-           }
+          }
         } 
     
        
