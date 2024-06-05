@@ -6,7 +6,7 @@ import {  useSelector } from 'react-redux'
 import { RootState } from '@/store/store'
 import { useRouter } from 'next/navigation'
 import { Skeleton } from '@/components/ui/skeleton'
-import { message, useSocket } from '@/app/custom-Hooks/SocketProvider'
+import {  useSocket } from '@/app/custom-Hooks/SocketProvider'
 import { useSession } from 'next-auth/react'
 import Message from '@/components/my-components/Message'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -17,6 +17,7 @@ import { Input } from '@/components/ui/input'
 import { Avatar } from '@/components/ui/avatar'
 import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import { Textarea } from '@/components/ui/textarea'
+import { IMessage } from '@/types/ApiResponse'
 
 interface FormType {
   content : string
@@ -56,14 +57,18 @@ function page({params} : {params : params}) {
   const sendmessages = async (data : FormType) => {
     console.log("message send function");
 
-    const message: message = {
+    const message: IMessage = {
       content: data.content,
       sender: {
         avatar: user.avatar ? user.avatar :"",
         id: user.id,
         name: user.name,  
+        createdAt : user.createdAt ,
+        email : user.email ,
+        headline : user.headline
+        
       },
-      roomName : params.id
+     createdAt : new Date()
      
     };
 

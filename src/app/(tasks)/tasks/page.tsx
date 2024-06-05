@@ -7,19 +7,21 @@ import React from 'react'
 import { useSocket } from '@/app/custom-Hooks/SocketProvider'
 
 function page() {
-    const {data : tasks , isLoading} = useQuery({
+    const {data : backendtasks , isLoading} = useQuery({
         queryKey : ["tasks/user"],
         queryFn : async () => await getUserTasks()
     })
-    const {} = useSocket()
+    const {Tasks} = useSocket()
 
     if (isLoading) {
       return <Skeleton className=' bg-slate-700'/>
     }
+
+    const allTasks = [...(backendtasks ?? []) , ...Tasks]
     
   return (
     <div className=' flex flex-col gap-4 w-full'>
-     {tasks ? tasks.map((task)=>(
+     {allTasks ? allTasks.map((task)=>(
         <TaskCard task={task} />
      )) : null}
     </div>

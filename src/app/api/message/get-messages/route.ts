@@ -18,7 +18,7 @@ export async function GET(req: Request) {
       select: {
         content: true,
         createdAt: true,
-        id: true,
+       
         sender: {
           select: {
             createdAt: true,

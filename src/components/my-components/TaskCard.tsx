@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import dayjs from 'dayjs';
-import { X } from 'lucide-react';
+import { SquareCheckBig, X } from 'lucide-react';
 import { Task } from '@prisma/client';
 import { Card, CardContent, CardHeader, CardTitle , CardDescription  , CardFooter} from '@/components/ui/card';
 import {
@@ -57,9 +57,16 @@ export function TaskCard({ task}: MessageCardProps) {
           <CardTitle>{task.title}</CardTitle>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant='destructive'>
-                <X className="w-5 h-5" />
-              </Button>
+              {task.isCompleted ? 
+              <Button variant="secondary" className=' bg-green-500' >
+              
+              <SquareCheckBig className="w-5 h-5" />
+            </Button>
+              : 
+              <Button variant="destructive" >
+                <X  className="w-5 h-5"/>
+              
+              </Button>}
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>

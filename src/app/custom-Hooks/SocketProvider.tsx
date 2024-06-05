@@ -1,18 +1,12 @@
 "use client";
 
-import React, {
-  createContext,
-  FC,
-  useCallback,
-  useState,
-  useContext,
-  useEffect,
-} from "react";
+import React, { useCallback, useState, useContext, useEffect } from "react";
 import { io, Socket } from "socket.io-client";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { IMessage } from "@/types/ApiResponse";
+import { ITask , user } from "@/types/ApiResponse";
 
 interface SocketProviderProps {
   children?: React.ReactNode;
@@ -22,41 +16,22 @@ interface RoomAcknowledgeMent {
   status: boolean;
 }
 
-export interface message {
-  content: string;
-  sender: user;
-  roomName : string
-}
-interface user {
-  name: string;
-  avatar: string | null;
-  id: string;
-}
-
-export interface SocketTask{
-  content:string,
-  sender:user,
-  // LastDate:Date,
-  reciver:user,
-  title:string
-}
-
 
 interface IsocketContext {
-  sendMessage: (roomName: string, Message: message) => Promise<boolean>;
+  sendMessage: (roomName: string, Message: IMessage) => Promise<boolean>;
   joinRoom: (roomName: string) => Promise<boolean>;
-  Messages: Array<message>;
-  clearMessages: () => void; 
-  createRoomName : (user1 : user , user2 : user) => string
-  sendTask:(roomName:string,Task:SocketTask)=> Promise<boolean>;
-  Tasks : Array<SocketTask>
-  clearTasks: () => void; 
+  Messages: Array<IMessage>;
+  clearMessages: () => void;
+  createRoomName: (user1: user, user2: user) => string;
+  sendTask: (roomName: string, Task: ITask) => Promise<boolean>;
+  Tasks: Array<ITask>;
+  clearTasks: () => void;
 }
 
 const socketContext = React.createContext<IsocketContext | null>(null);
 export const useSocket = () => {
   const state = useContext(socketContext);
-  
+
   if (!state) throw new Error("state not defined");
 
   return state;
@@ -64,17 +39,16 @@ export const useSocket = () => {
 
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [Socket, setSocket] = useState<Socket>();
-  const [Messages, setMessages] = useState<message[]>([]);
-  const [Tasks  , setTasks] = useState<SocketTask[]>([])
- 
-  const userData = useSelector((state : RootState)=> state.user.userData)
-  
+  const [Messages, setMessages] = useState<IMessage[]>([]);
+  const [Tasks, setTasks] = useState<ITask[]>([]);
+
+  const userData = useSelector((state: RootState) => state.user.userData);
 
   const joinRoom = useCallback(
     async (roomName: string) => {
       if (Socket === undefined) {
         console.log("Socket Undefined");
-        
+
         return false;
       }
 
@@ -93,20 +67,19 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     },
     [Socket]
   );
-  const sendTask :IsocketContext["sendTask"] = useCallback(
-    async(roomName:string,Task:SocketTask)=>{
-      const res:RoomAcknowledgeMent = await Socket?.emitWithAck(
+  const sendTask: IsocketContext["sendTask"] = useCallback(
+    async (roomName: string, Task: ITask) => {
+      const res: RoomAcknowledgeMent = await Socket?.emitWithAck(
         "sendtask",
         roomName,
         Task
-      )
-      console.log("task send " , Task);
-      
-      return res.status
+      );
+      console.log("task send ", Task);
 
-    },[Socket]
-  )
-
+      return res.status;
+    },
+    [Socket]
+  );
 
   const createRoomName = (user1: user, user2: user) => {
     // Concatenate the IDs of both users and sort them alphabetically
@@ -114,10 +87,9 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     // Concatenate the sorted IDs again
     return sortedIds.join("_");
   };
-  
 
-   const sendMessage: IsocketContext["sendMessage"] = useCallback(
-    async (roomName: string, Message: message) => {
+  const sendMessage: IsocketContext["sendMessage"] = useCallback(
+    async (roomName: string, Message: IMessage) => {
       const res: RoomAcknowledgeMent = await Socket?.emitWithAck(
         "sendMessage",
         roomName,
@@ -142,61 +114,46 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     [Socket]
   );
 
-  
   const onMessageRec = useCallback(
-    (Item: message | SocketTask ) => {
-     
-     
-      
-
-     
-
-      if ('content' in Item && 'sender' in Item && 'roomName' in Item) {
+    (Item: IMessage | ITask) => {
+      if ("content" in Item && "sender" in Item && "createdAt" in Item) {
         console.log("message hai");
         setMessages((prev) => [...prev, Item]);
-      }
-      else if ('content' in Item && 'title' in Item && 'sender' in Item && 'reciver' in Item) {
+      } else if (
+        "content" in Item &&
+        "title" in Item &&
+        "sender" in Item &&
+        "Company" in Item &&
+        "isCompleted" in Item &&
+        "createdAt" in Item
+      ) {
         // Object is of type Task
         console.log("task hai");
         setTasks((prev) => [...prev, Item]);
-      } 
-      
-      else {
-        console.error('Received data does not match expected format.');
+      } else {
+        console.error("Received data does not match expected format.");
       }
-      
     },
     [Socket]
   );
 
-  const clearMessages : IsocketContext["clearMessages"] = useCallback(() => {
+  const clearMessages: IsocketContext["clearMessages"] = useCallback(() => {
     setMessages([]); // Clearing messages array
   }, []);
 
-  const clearTasks : IsocketContext["clearTasks"] = useCallback(() => {
+  const clearTasks: IsocketContext["clearTasks"] = useCallback(() => {
     setTasks([]); // Clearing Tasks array
   }, []);
- 
-  
-  
-  
 
   useEffect(() => {
     const initializeSocket = async () => {
       const _socket = io("http://localhost:3002");
       _socket.on("RecivedMessage", onMessageRec);
-  
+
       setSocket(_socket);
-  
-
-     
     };
-  
-    initializeSocket();
 
-  
-   
-   
+    initializeSocket();
 
     return () => {
       if (Socket) {
@@ -209,17 +166,29 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   useEffect(() => {
     const joinRoomIfSocketInitialized = async () => {
       if (Socket) {
-      if (userData) {
-        await joinRoom(`${userData.id}_${userData.name}`);
-      }
+        if (userData) {
+          await joinRoom(`${userData.id}_${userData.name}`);
+        }
       }
     };
 
     joinRoomIfSocketInitialized();
+
   }, [Socket, joinRoom]);
 
   return (
-    <socketContext.Provider value={{  sendMessage, joinRoom, Messages  , clearMessages , createRoomName , sendTask  , clearTasks , Tasks}}>
+    <socketContext.Provider
+      value={{
+        sendMessage,
+        joinRoom,
+        Messages,
+        clearMessages,
+        createRoomName,
+        sendTask,
+        clearTasks,
+        Tasks,
+      }}
+    >
       {children}
     </socketContext.Provider>
   );

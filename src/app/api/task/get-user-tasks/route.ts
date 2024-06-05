@@ -47,7 +47,8 @@ export async function GET(req : Request) {
             } ,
             content : true ,
             createdAt : true ,
-            id : true ,
+             isCompleted : true
+
 
           } ,
           orderBy :{

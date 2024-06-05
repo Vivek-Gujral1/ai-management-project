@@ -21,7 +21,9 @@ export interface user {
 
 export interface IMessage {
   content: string,
-  sender: user
+  sender: user ,
+  createdAt : Date
+  
 }
 
 export interface ICompany {
@@ -45,7 +47,7 @@ export interface ITask {
   sender : user
   content : string
   createdAt : Date
-  id : string
+  isCompleted : boolean
 }
 
 
