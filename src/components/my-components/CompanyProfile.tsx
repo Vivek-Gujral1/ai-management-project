@@ -9,7 +9,7 @@ import { Skeleton } from "../ui/skeleton";
 import UserCompanies from "./UserCompanies";
 import { useSession } from "next-auth/react";
 import { DialogDemo } from "./EditCompanyProfile";
-import UsersPage from "./Members";
+
 import CompanyMembers from "./CompanyMembers";
 
 function Profile({CompanyId}: {CompanyId : string}) {
@@ -44,8 +44,8 @@ function Profile({CompanyId}: {CompanyId : string}) {
         </div>
         <div className="  lg:w-1/2 flex flex-col justify-center lg:flex-row  lg:items-center lg:gap-4">
           <Link className="flex flex-row items-center gap-2 h-8  pl-2 justify-center" href={"/"}><IoChatboxEllipsesOutline />Send Message</Link>
-          <DialogDemo CompanyId={CompanyId}/>
-          <Link className="flex flex-row items-center gap-2 h-8  pl-2 justify-center" href={`/companies/${CompanyProfileData?.id}/add-member`}><IoChatboxEllipsesOutline />ADD Member</Link>
+         {CompanyProfileData?.createdUser.id === user?.id  ?  <DialogDemo CompanyId={CompanyId}/>: null}
+         {CompanyProfileData?.createdUser.id === user?.id ?  <Link className="flex flex-row items-center gap-2 h-8  pl-2 justify-center" href={`/companies/${CompanyProfileData?.id}/add-member`}><IoChatboxEllipsesOutline />ADD Member</Link>: null }
         </div>
       </section>
    

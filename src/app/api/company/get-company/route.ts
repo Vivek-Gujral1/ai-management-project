@@ -26,7 +26,17 @@ export async function GET(req : Request) {
             email : true ,
             id : true ,
             avatar : true ,
-            headline : true
+            headline : true ,
+            createdUser : {
+              select : {
+                createdAt: true,
+                name: true,
+                email: true,
+                id: true,
+                avatar: true,
+                headline: true,
+              }
+            }
         }
     })
 

@@ -32,6 +32,7 @@ export interface ICompany {
   id: string,
   avatar: string | null,
   headline: string | null
+  createdUser : user // who creates company
 }
 
 export interface searchedusers extends user {
